@@ -9,7 +9,7 @@ group :development, :test do
   gem 'rack-test', '~> 1.1'
   gem 'rake', '~> 12.3', '>= 12.3.1'
   gem 'rspec', '~> 3.7'
-  gem 'rubocop', '~> 0.59.2', require: false
+  gem 'rubocop', '~> 0.60.0', require: false
   gem 'rubocop-rspec', '~> 1.27', require: false
 end
 
