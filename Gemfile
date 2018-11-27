@@ -3,14 +3,14 @@ ruby '2.5.1'
 source 'https://rubygems.org'
 
 gem 'addressable', '~> 2.5', '>= 2.5.2', require: 'addressable/uri'
-gem 'sinatra', '~> 2.0', '>= 2.0.3'
+gem 'sinatra', '~> 2.0', '>= 2.0.4'
 
 group :development, :test do
   gem 'rack-test', '~> 1.1'
   gem 'rake', '~> 12.3', '>= 12.3.1'
-  gem 'rspec', '~> 3.7'
+  gem 'rspec', '~> 3.8'
   gem 'rubocop', '~> 0.60.0', require: false
-  gem 'rubocop-rspec', '~> 1.27', require: false
+  gem 'rubocop-rspec', '~> 1.30', '>= 1.30.1', require: false
 end
 
 group :development do
