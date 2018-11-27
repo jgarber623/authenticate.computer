@@ -15,9 +15,9 @@ describe AuthenticateComputer::App, 'GET /' do
     end
   end
 
-  context 'when requested with invalid required params' do
-  end
-
-  context 'when requested with valid required params' do
-  end
+  # context 'when requested with invalid required params' do
+  # end
+  #
+  # context 'when requested with valid required params' do
+  # end
 end
