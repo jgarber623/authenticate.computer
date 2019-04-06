@@ -7,4 +7,6 @@ require 'bundler/setup'
 
 Bundler.require(:default, env)
 
+Dotenv.load unless env == :production
+
 require 'authenticate_computer'

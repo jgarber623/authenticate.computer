@@ -1,17 +1,7 @@
 require:
   - rubocop-rspec
 
-Metrics/BlockLength:
-  Exclude:
-    - spec/**/*.rb
-
 Metrics/LineLength:
-  Enabled: false
-
-RSpec/FilePath:
-  Enabled: false
-
-RSpec/DescribeMethod:
   Enabled: false
 
 Style/Documentation:

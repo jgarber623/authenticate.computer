@@ -1,0 +1,11 @@
+<ul>
+  <li>me: <%= params[:me] %></li>
+  <li>client_id: <%= params[:client_id] %></li>
+  <li>redirect_uri: <%= params[:redirect_uri] %></li>
+  <li>scope: <%= params[:scope] %></li>
+  <li>state: <%= params[:state] %></li>
+</ul>
+
+<form action="/login" method="post">
+  <button>Log In</button>
+</form>
