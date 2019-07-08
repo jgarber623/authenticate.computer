@@ -1,5 +1,5 @@
 describe AuthenticateComputer::App do
-  let(:message) { '404 File Not Found' }
+  let(:message) { 'The requested URL could not be found.' }
 
   context 'when GET /foo' do
     it 'renders the 404 view' do
