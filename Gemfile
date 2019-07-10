@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
 gem 'addressable', '~> 2.6', require: 'addressable/uri'
-gem 'indieweb-endpoints', '~> 0.7.0'
+gem 'indieweb-endpoints', '~> 1.0.0'
 gem 'sinatra', '~> 2.0'
 gem 'sinatra-asset-pipeline', '~> 2.2', require: 'sinatra/asset_pipeline'
 gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.1.0'
