@@ -1,31 +1,19 @@
 module AuthenticateComputer
-  class HttpBadRequest < StandardError
-    def http_status
-      400
-    end
-  end
+  # rubocop:disable Layout/AlignHash
+  HTTP_STATUS_CODES = {
+    HttpBadRequest:          400,
+    HttpUnauthorized:        401,
+    HttpForbidden:           403,
+    HttpLoginTimeout:        440,
+    HttpInternalServerError: 500
+  }.freeze
+  # rubocop:enable Layout/AlignHash
 
-  class HttpUnauthorized < StandardError
-    def http_status
-      401
+  HTTP_STATUS_CODES.each do |status, code|
+    klass = Class.new(StandardError) do
+      define_method :http_status, -> { code }
     end
-  end
 
-  class HttpForbidden < StandardError
-    def http_status
-      403
-    end
-  end
-
-  class HttpLoginTimeout < StandardError
-    def http_status
-      440
-    end
-  end
-
-  class HttpInternalServerError < StandardError
-    def http_status
-      500
-    end
+    Object.const_set(status, klass)
   end
 end
