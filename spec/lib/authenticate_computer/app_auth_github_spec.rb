@@ -1,5 +1,13 @@
 describe AuthenticateComputer::App do
   context 'when POST /auth/github' do
+    let(:authenticity_token) { SecureRandom.base64(32) }
+
+    let(:populated_session) do
+      {
+        csrf: authenticity_token
+      }
+    end
+
     before do
       OmniAuth.config.mock_auth[:github] = nil
     end
@@ -10,7 +18,7 @@ describe AuthenticateComputer::App do
       end
 
       it 'renders the auth_failure view' do
-        post '/auth/github'
+        post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
 
         follow_redirect! # => /auth/github/callback
         follow_redirect! # => /auth/failure
@@ -26,7 +34,7 @@ describe AuthenticateComputer::App do
       end
 
       it 'renders the 403 view' do
-        post '/auth/github'
+        post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
 
         follow_redirect! # => /auth/github/callback
 

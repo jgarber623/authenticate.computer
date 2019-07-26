@@ -11,7 +11,11 @@ module AuthenticateComputer
       set :partial_underscores, true
       set :raise_sinatra_param_exceptions, true
 
-      use Rack::Session::Cookie, expire_after: 60, secret: ENV['COOKIE_SECRET']
+      use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
+
+      use Rack::Protection, use: [:authenticity_token, :cookie_tossing]
+      # use Rack::Protection::ContentSecurityPolicy
+      # use Rack::Protection::StrictTransport, max_age: 31536000, include_subdomains: true, preload: true
 
       use OmniAuth::Builder do
         provider :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'read:user'

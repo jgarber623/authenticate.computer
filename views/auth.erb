@@ -3,6 +3,8 @@
 <p>Use one of the services below to authenticate as <b><%= params[:me] %></b>.</p>
 
 <form action="/auth/github" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= env['rack.session'][:csrf] %>">
+
   <button>Authenticate with GitHub</button>
 </form>
 
