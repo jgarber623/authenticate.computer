@@ -19,14 +19,10 @@ describe AuthenticateComputer::App do
     let(:code) { SecureRandom.hex(32) }
 
     before do
-      OmniAuth.config.mock_auth[:github] = nil
+      OmniAuth.config.add_mock(:github, info: { nickname: ENV['GITHUB_USER'] })
     end
 
     context 'when session timeout' do
-      before do
-        OmniAuth.config.add_mock(:github, info: { nickname: ENV['GITHUB_USER'] })
-      end
-
       it 'renders the 440 view' do
         get '/auth/github/callback', {}, 'rack.session' => {}
 
@@ -37,8 +33,6 @@ describe AuthenticateComputer::App do
 
     context 'when user grants access' do
       before do
-        OmniAuth.config.add_mock(:github, info: { nickname: ENV['GITHUB_USER'] })
-
         allow(SecureRandom).to receive(:hex).and_return(code)
 
         get '/auth/github/callback', {}, 'rack.session' => populated_session
