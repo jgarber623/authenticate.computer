@@ -2,11 +2,18 @@ require:
   - rubocop-performance
   - rubocop-rspec
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+
 Metrics/LineLength:
   Enabled: false
 
+Naming/RescuedExceptionsVariableName:
+  PreferredName: exception
+
 RSpec/MultipleExpectations:
-  Max: 2
+  Max: 3
 
 Style/Documentation:
   Enabled: false
