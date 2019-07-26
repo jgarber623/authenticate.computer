@@ -1,52 +1,122 @@
 module AuthenticateComputer
   class App < Sinatra::Base
+    register Sinatra::AssetPipeline
+    register Sinatra::Param
+    register Sinatra::Partial
+
     configure do
       set :root, File.dirname(File.expand_path('..', __dir__))
 
-      set :raise_errors, true
+      set :partial_template_engine, :erb
+      set :partial_underscores, true
       set :raise_sinatra_param_exceptions, true
-      set :show_exceptions, :after_handler
+
+      use Rack::Session::Cookie, expire_after: 60, secret: ENV['COOKIE_SECRET']
+
+      use OmniAuth::Builder do
+        provider :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'read:user'
+      end
     end
 
-    register Sinatra::AssetPipeline
-    register Sinatra::Param
+    helpers do
+      def render_alert_partial(**locals)
+        erb partial(:alert, locals: locals)
+      end
+    end
 
-    # get '/auth' do
-    #   param :me,            required: true, format: uri_regexp, transform: ->(me) { Addressable::URI.parse(me).normalize.to_s }
-    #   param :client_id,     required: true, format: uri_regexp
-    #   param :redirect_uri,  required: true, format: uri_regexp, in: IndieWeb::Endpoints.get(params[:client_id]).redirect_uri.to_a
-    #   param :state,         required: true
-    #   param :scope,         default: ''
-    #   param :response_type, default: 'id', in: %w[code id]
-    #
-    #   # fetch the me URL for user information
-    #   # fetch the client_id URL for app information
-    #   # set the session
-    #   # display authentication options
-    #
-    #   erb :auth
-    # end
+    get '/' do
+      erb :homepage
+    end
 
+    # Authentication Request
+    # https://indieauth.spec.indieweb.org/#authentication-request
+    get '/auth' do
+      session[:me]            = param :me,            required: true, format: uri_regexp, transform: ->(me) { Addressable::URI.parse(me).normalize.to_s }
+      session[:client_id]     = param :client_id,     required: true, format: uri_regexp, transform: ->(client_id) { Addressable::URI.parse(client_id).normalize.to_s }
+      session[:redirect_uri]  = param :redirect_uri,  required: true, format: uri_regexp, in: IndieWeb::Endpoints.get(params[:client_id]).redirect_uri.to_a
+      session[:state]         = param :state,         required: true, minlength: 16
+      session[:scope]         = param :scope,         default: ''
+      session[:response_type] = param :response_type, default: 'id', in: %w[code id]
+
+      # TODO: fetch the me URL for user information
+      # TODO: fetch the client_id URL for app information
+
+      erb :auth
+    rescue IndieWeb::Endpoints::IndieWebEndpointsError
+      raise HttpInternalServerError, 'There was a problem fulfilling the request'
+    rescue Sinatra::Param::InvalidParameterError => exception
+      raise HttpBadRequest, exception
+    end
+
+    get '/auth/failure' do
+      redirect '/' unless params[:message].present?
+
+      render_alert_partial title: 'Provider Authentication Error', message: "The authentication provider returned the following error: #{params[:message].sub(/\.$/, '')}. Please try again."
+    end
+
+    # Authentication Response
+    # https://indieauth.spec.indieweb.org/#authentication-response
+    get '/auth/github/callback' do
+      raise HttpForbidden, 'Authentication provider returned an unrecognized user' unless valid_user?
+      raise HttpLoginTimeout, 'Session expired during authentication' unless valid_session?
+
+      code = SecureRandom.hex(32)
+
+      # TODO: store data in Redis
+
+      redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(code: code, state: session[:state])}"
+
+      session.clear
+
+      redirect redirect_uri
+    end
+
+    # Authorization Code Verification
+    # https://indieauth.spec.indieweb.org/#authorization-code-verification
     # post '/auth' do
     #   param :code,         required: true
-    #   param :client_id,    required: true, format: uri_regexp, match: '' # session's client_id
-    #   param :redirect_uri, required: true, format: uri_regexp, match: '' # session's redirect_uri
+    #   param :client_id,    required: true, format: uri_regexp, match: session['client_id']
+    #   param :redirect_uri, required: true, format: uri_regexp, match: session['redirect_uri']
     # end
+
+    error 400 do
+      render_alert_partial title: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
+    end
+
+    error 401 do
+      render_alert_partial title: '401 Unauthorized', message: "#{request.env['sinatra.error'].message}."
+    end
+
+    error 403 do
+      render_alert_partial title: '403 Forbidden', message: "#{request.env['sinatra.error'].message}."
+    end
 
     error 404 do
       cache_control :public
 
-      erb :'404'
+      render_alert_partial title: '404 File Not Found', message: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
     end
 
-    # error Sinatra::Param::InvalidParameterError do
-    #   erb :'400', locals: { error: env['sinatra.error'].message }
-    # end
+    error 440 do
+      render_alert_partial title: '440 Session Timeout', message: "#{request.env['sinatra.error'].message}. Please try again."
+    end
+
+    error 500 do
+      render_alert_partial title: '500 Internal Server Error', message: "#{request.env['sinatra.error'].message}. Please try again later."
+    end
 
     private
 
     def uri_regexp
-      @uri_regexp ||= URI.regexp(%w[http https])
+      @uri_regexp ||= %r{^https?://.*}
+    end
+
+    def valid_session?
+      %w[me client_id redirect_uri state scope response_type].all? { |key| session.key?(key) }
+    end
+
+    def valid_user?
+      request.env['omniauth.auth']['info']['nickname'] == ENV['GITHUB_USER']
     end
   end
 end

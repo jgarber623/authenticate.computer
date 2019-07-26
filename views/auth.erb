@@ -1,11 +1,9 @@
-<ul>
-  <li>me: <%= params[:me] %></li>
-  <li>client_id: <%= params[:client_id] %></li>
-  <li>redirect_uri: <%= params[:redirect_uri] %></li>
-  <li>scope: <%= params[:scope] %></li>
-  <li>state: <%= params[:state] %></li>
-</ul>
+<h1>Sign in to <b><%= params[:client_id] %></b></h1>
 
-<form action="/login" method="post">
-  <button>Log In</button>
+<p>Use one of the services below to authenticate as <b><%= params[:me] %></b>.</p>
+
+<form action="/auth/github" method="post">
+  <button>Authenticate with GitHub</button>
 </form>
+
+<p>You will be redirected to <b><%= params[:redirect_uri] %></b> after authorizing this application’s request.</p>
