@@ -1,6 +1,9 @@
 detectors:
   IrresponsibleModule:
     enabled: false
+  UtilityFunction:
+    exclude:
+      - AuthenticateComputer::App#normalize_url
 
 exclude_paths:
   - vendor/
