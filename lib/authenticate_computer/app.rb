@@ -25,6 +25,10 @@ module AuthenticateComputer
     end
 
     helpers do
+      def normalize_url(url)
+        Addressable::URI.parse(url).normalize.to_s
+      end
+
       def render_alert_partial(**locals)
         erb partial(:alert, locals: locals)
       end
@@ -37,9 +41,9 @@ module AuthenticateComputer
     # Authentication Request
     # https://indieauth.spec.indieweb.org/#authentication-request
     get '/auth' do
-      session[:me]            = param :me,            required: true, format: uri_regexp, transform: ->(me) { Addressable::URI.parse(me).normalize.to_s }
-      session[:client_id]     = param :client_id,     required: true, format: uri_regexp, transform: ->(client_id) { Addressable::URI.parse(client_id).normalize.to_s }
-      session[:redirect_uri]  = param :redirect_uri,  required: true, format: uri_regexp, in: IndieWeb::Endpoints.get(params[:client_id]).redirect_uri.to_a
+      session[:me]            = param :me,            required: true, format: uri_regexp, transform: ->(me) { normalize_url(me) }
+      session[:client_id]     = param :client_id,     required: true, format: uri_regexp, transform: ->(client_id) { normalize_url(client_id) }
+      session[:redirect_uri]  = param :redirect_uri,  required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact
       session[:state]         = param :state,         required: true, minlength: 16
       session[:scope]         = param :scope,         default: ''
       session[:response_type] = param :response_type, default: 'id', in: %w[code id]
@@ -48,8 +52,6 @@ module AuthenticateComputer
       # TODO: fetch the client_id URL for app information
 
       erb :auth
-    rescue IndieWeb::Endpoints::IndieWebEndpointsError
-      raise HttpInternalServerError, 'There was a problem fulfilling the request'
     rescue Sinatra::Param::InvalidParameterError => exception
       raise HttpBadRequest, exception
     end
@@ -115,6 +117,16 @@ module AuthenticateComputer
 
     def uri_regexp
       @uri_regexp ||= %r{^https?://.*}
+    end
+
+    def valid_redirect_uris(client_id, redirect_uri)
+      return unless client_id && redirect_uri
+
+      return redirect_uri if Addressable::URI.parse(redirect_uri).host == Addressable::URI.parse(client_id).host
+
+      IndieWeb::Endpoints.get(client_id).redirect_uri
+    rescue IndieWeb::Endpoints::IndieWebEndpointsError
+      raise HttpInternalServerError, 'There was a problem fulfilling the request'
     end
 
     def valid_session?

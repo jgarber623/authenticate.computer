@@ -69,7 +69,7 @@ describe AuthenticateComputer::App do
       end
 
       it 'renders the 500 view' do
-        get '/auth', me: me, client_id: client_id
+        get '/auth', me: me, client_id: client_id, redirect_uri: redirect_uri
 
         expect(last_response.status).to eq(500)
         expect(last_response.body).to include('There was a problem fulfilling the request')
