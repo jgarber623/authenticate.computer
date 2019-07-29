@@ -4,7 +4,7 @@ describe AuthenticateComputer::App do
     let(:client_id) { 'https://client_id.example.com' }
     let(:redirect_uri) { 'https://me.example.com/auth' }
 
-    let(:error) { '400 Bad Request' }
+    let(:error) { 'invalid_request' }
 
     before do
       header 'Accept', 'application/json'
@@ -15,7 +15,7 @@ describe AuthenticateComputer::App do
         post '/auth'
 
         expect(last_response.status).to eq(400)
-        expect(last_response.body).to eq({ error: error, message: 'Parameter code is required and cannot be blank. Please correct this error and try again.' }.to_json)
+        expect(last_response.body).to eq({ error: error, error_description: 'Parameter code is required and cannot be blank. Please correct this error and try again.' }.to_json)
       end
     end
 
@@ -24,7 +24,7 @@ describe AuthenticateComputer::App do
         post '/auth', code: 'foo'
 
         expect(last_response.status).to eq(400)
-        expect(last_response.body).to eq({ error: error, message: 'Parameter code value "foo" must match format ^[a-f0-9]{64}$. Please correct this error and try again.' }.to_json)
+        expect(last_response.body).to eq({ error: error, error_description: 'Parameter code value "foo" must match format ^[a-f0-9]{64}$. Please correct this error and try again.' }.to_json)
       end
     end
 
@@ -33,7 +33,7 @@ describe AuthenticateComputer::App do
         post '/auth', code: code
 
         expect(last_response.status).to eq(400)
-        expect(last_response.body).to eq({ error: error, message: 'Parameter client_id is required and cannot be blank. Please correct this error and try again.' }.to_json)
+        expect(last_response.body).to eq({ error: error, error_description: 'Parameter client_id is required and cannot be blank. Please correct this error and try again.' }.to_json)
       end
     end
 
@@ -42,7 +42,7 @@ describe AuthenticateComputer::App do
         post '/auth', code: code, client_id: 'foo'
 
         expect(last_response.status).to eq(400)
-        expect(last_response.body).to eq({ error: error, message: 'Parameter client_id value "foo" must match format ^https?://.*. Please correct this error and try again.' }.to_json)
+        expect(last_response.body).to eq({ error: error, error_description: 'Parameter client_id value "foo" must match format ^https?://.*. Please correct this error and try again.' }.to_json)
       end
     end
 
@@ -51,7 +51,7 @@ describe AuthenticateComputer::App do
         post '/auth', code: code, client_id: client_id
 
         expect(last_response.status).to eq(400)
-        expect(last_response.body).to eq({ error: error, message: 'Parameter redirect_uri is required and cannot be blank. Please correct this error and try again.' }.to_json)
+        expect(last_response.body).to eq({ error: error, error_description: 'Parameter redirect_uri is required and cannot be blank. Please correct this error and try again.' }.to_json)
       end
     end
 
@@ -60,7 +60,7 @@ describe AuthenticateComputer::App do
         post '/auth', code: code, client_id: client_id, redirect_uri: 'foo'
 
         expect(last_response.status).to eq(400)
-        expect(last_response.body).to eq({ error: error, message: 'Parameter redirect_uri value "foo" must match format ^https?://.*. Please correct this error and try again.' }.to_json)
+        expect(last_response.body).to eq({ error: error, error_description: 'Parameter redirect_uri value "foo" must match format ^https?://.*. Please correct this error and try again.' }.to_json)
       end
     end
 

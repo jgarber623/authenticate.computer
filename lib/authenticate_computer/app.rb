@@ -34,7 +34,7 @@ module AuthenticateComputer
       def render_alert(**locals)
         respond_to do |format|
           format.html { partial :alert, locals: locals }
-          format.json { json locals }
+          format.json { json error: locals[:error], error_description: locals[:message] }
         end
       end
     end
@@ -113,19 +113,19 @@ module AuthenticateComputer
     end
 
     error 400 do
-      render_alert error: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
+      render_alert error: 'invalid_request', title: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
     end
 
     error 404 do
-      render_alert error: '404 File Not Found', message: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
+      render_alert error: 'file_not_found', title: '404 File Not Found', message: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
     end
 
     error 440 do
-      render_alert error: '440 Session Timeout', message: "#{request.env['sinatra.error'].message}. Please try again."
+      render_alert error: 'session_timeout', title: '440 Session Timeout', message: "#{request.env['sinatra.error'].message}. Please try again."
     end
 
     error 500 do
-      render_alert error: '500 Internal Server Error', message: "#{request.env['sinatra.error'].message}. Please try again later."
+      render_alert error: 'server_error', title: '500 Internal Server Error', message: "#{request.env['sinatra.error'].message}. Please try again later."
     end
 
     private
