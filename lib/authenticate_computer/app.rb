@@ -70,7 +70,7 @@ module AuthenticateComputer
     get '/auth/failure', provides: :html do
       redirect '/' unless session[:redirect_uri] && params[:message].present?
 
-      redirect_uri = "#{session[:redirect_uri]}?error=#{params[:message]}"
+      redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(error: params[:message])}"
 
       session.clear
 
