@@ -68,9 +68,9 @@ module AuthenticateComputer
     # Authentication Error Response
     # https://tools.ietf.org/html/rfc6749#section-4.1.2.1
     get '/auth/failure', provides: :html do
-      redirect '/' unless session[:redirect_uri] && params[:message].present?
+      redirect '/' unless valid_session? && params[:message].present?
 
-      redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(error: params[:message])}"
+      redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(error: params[:message], state: session[:state])}"
 
       session.clear
 

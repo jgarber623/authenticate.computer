@@ -2,11 +2,17 @@ describe AuthenticateComputer::App do
   context 'when POST /auth/github' do
     let(:authenticity_token) { SecureRandom.base64(32) }
     let(:redirect_uri) { 'https://me.example.com/auth' }
+    let(:state) { SecureRandom.hex(32) }
 
     let(:populated_session) do
       {
         'csrf' => authenticity_token,
-        'redirect_uri' => redirect_uri
+        'me' => 'https://me.example.com/',
+        'client_id' => 'https://client_id.example.com/',
+        'redirect_uri' => redirect_uri,
+        'state' => state,
+        'scope' => '',
+        'response_type' => 'id'
       }
     end
 
@@ -31,7 +37,7 @@ describe AuthenticateComputer::App do
       it 'redirects the user' do
         follow_redirect!
 
-        expect(last_request.url).to eq("#{redirect_uri}?error=access_denied")
+        expect(last_request.url).to eq("#{redirect_uri}?error=access_denied&state=#{state}")
       end
     end
 
