@@ -44,15 +44,20 @@ describe AuthenticateComputer::App do
     context 'when unrecognized user' do
       before do
         OmniAuth.config.add_mock(:github, info: { nickname: 'foo' })
-      end
 
-      it 'renders the 403 view' do
         post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
 
         follow_redirect! # => /auth/github/callback
+      end
 
-        expect(last_response.status).to eq(403)
-        expect(last_response.body).to include('Authentication provider returned an unrecognized user')
+      it 'clears the session' do
+        expect(last_request.session.to_h).not_to include(populated_session)
+      end
+
+      it 'redirects the user' do
+        follow_redirect!
+
+        expect(last_request.url).to eq("#{redirect_uri}?error=invalid_request&error_description=The+authentication+provider+returned+an+unrecognized+user&state=#{state}")
       end
     end
   end

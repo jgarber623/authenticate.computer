@@ -80,14 +80,19 @@ module AuthenticateComputer
     # Authentication Response
     # https://indieauth.spec.indieweb.org/#authentication-response
     get '/auth/github/callback', provides: :html do
-      raise HttpForbidden, 'Authentication provider returned an unrecognized user' unless valid_user?
       raise HttpLoginTimeout, 'Session expired during authentication' unless valid_session?
 
-      code = SecureRandom.hex(32)
+      if valid_user?
+        code = SecureRandom.hex(32)
 
-      # TODO: store data in Redis
+        # TODO: store data in Redis
 
-      redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(code: code, state: session[:state])}"
+        redirect_params = { code: code, state: session[:state] }
+      else
+        redirect_params = { error: 'invalid_request', error_description: 'The authentication provider returned an unrecognized user', state: session[:state] }
+      end
+
+      redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(redirect_params)}"
 
       session.clear
 
