@@ -130,7 +130,7 @@ describe AuthenticateComputer::App do
       end
     end
 
-    context 'when params are valid' do
+    context 'when authentication request is valid' do
       before do
         get '/auth', me: me, client_id: client_id, redirect_uri: redirect_uri, state: state
       end

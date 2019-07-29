@@ -15,7 +15,7 @@ module AuthenticateComputer
       use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
       use Rack::Protection, use: [:cookie_tossing]
-      use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_PATH'] == '/auth' && env['REQUEST_METHOD'] == 'POST' }
+      use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['PATH_INFO'] == '/auth' && env['REQUEST_METHOD'] == 'POST' }
       # use Rack::Protection::ContentSecurityPolicy
       # use Rack::Protection::StrictTransport, max_age: 31536000, include_subdomains: true, preload: true
 
@@ -90,13 +90,16 @@ module AuthenticateComputer
 
     # Authorization Code Verification
     # https://indieauth.spec.indieweb.org/#authorization-code-verification
-    # post '/auth', provides: :json do
-    #   param :code,         required: true, format: /^[a-f0-9]{32}$/
-    #   param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-    #   param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-    # rescue Sinatra::Param::InvalidParameterError => exception
-    #   raise HttpBadRequest, exception
-    # end
+    post '/auth', provides: :json do
+      param :code,         required: true, format: /^[a-f0-9]{64}$/
+      param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+
+      # TODO: look for data in Redis
+      # TODO: return JSON { me: <url> }
+    rescue Sinatra::Param::InvalidParameterError => exception
+      raise HttpBadRequest, exception
+    end
 
     error 400 do
       render_alert error: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
