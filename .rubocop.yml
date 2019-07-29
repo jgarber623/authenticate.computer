@@ -6,6 +6,10 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
 
+Metrics/ClassLength:
+  Exclude:
+    - lib/authenticate_computer/app.rb
+
 Metrics/LineLength:
   Enabled: false
 
