@@ -2,8 +2,6 @@ module AuthenticateComputer
   # rubocop:disable Layout/AlignHash
   HTTP_STATUS_CODES = {
     HttpBadRequest:          400,
-    HttpUnauthorized:        401,
-    HttpForbidden:           403,
     HttpNotAcceptable:       406,
     HttpLoginTimeout:        440,
     HttpInternalServerError: 500

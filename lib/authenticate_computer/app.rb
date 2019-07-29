@@ -116,14 +116,6 @@ module AuthenticateComputer
       render_alert error: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
     end
 
-    error 401 do
-      render_alert error: '401 Unauthorized', message: "#{request.env['sinatra.error'].message}."
-    end
-
-    error 403 do
-      render_alert error: '403 Forbidden', message: "#{request.env['sinatra.error'].message}."
-    end
-
     error 404 do
       render_alert error: '404 File Not Found', message: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
     end
