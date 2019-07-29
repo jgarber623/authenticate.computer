@@ -3,6 +3,7 @@ module AuthenticateComputer
     register Sinatra::AssetPipeline
     register Sinatra::Param
     register Sinatra::Partial
+    register Sinatra::RespondWith
 
     configure do
       set :root, File.dirname(File.expand_path('..', __dir__))
@@ -13,7 +14,8 @@ module AuthenticateComputer
 
       use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
-      use Rack::Protection, use: [:authenticity_token, :cookie_tossing]
+      use Rack::Protection, use: [:cookie_tossing]
+      use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_PATH'] == '/auth' && env['REQUEST_METHOD'] == 'POST' }
       # use Rack::Protection::ContentSecurityPolicy
       # use Rack::Protection::StrictTransport, max_age: 31536000, include_subdomains: true, preload: true
 
@@ -29,21 +31,28 @@ module AuthenticateComputer
         Addressable::URI.parse(url).normalize.to_s
       end
 
-      def render_alert_partial(**locals)
-        erb partial(:alert, locals: locals)
+      def render_alert(**locals)
+        respond_to do |format|
+          format.html { partial :alert, locals: locals }
+          format.json { json locals }
+        end
       end
     end
 
-    get '/' do
+    after do
+      halt [406, { 'Content-Type' => 'text/plain' }, 'The requested format is not supported'] if status == 500 && body.include?('Unknown template engine')
+    end
+
+    get '/', provides: :html do
       erb :homepage
     end
 
     # Authentication Request
     # https://indieauth.spec.indieweb.org/#authentication-request
-    get '/auth' do
-      session[:me]            = param :me,            required: true, format: uri_regexp, transform: ->(me) { normalize_url(me) }
-      session[:client_id]     = param :client_id,     required: true, format: uri_regexp, transform: ->(client_id) { normalize_url(client_id) }
-      session[:redirect_uri]  = param :redirect_uri,  required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact
+    get '/auth', provides: :html do
+      session[:me]            = param :me,            required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      session[:client_id]     = param :client_id,     required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      session[:redirect_uri]  = param :redirect_uri,  required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact, transform: ->(url) { normalize_url(url) }
       session[:state]         = param :state,         required: true, minlength: 16
       session[:scope]         = param :scope,         default: ''
       session[:response_type] = param :response_type, default: 'id', in: %w[code id]
@@ -56,15 +65,15 @@ module AuthenticateComputer
       raise HttpBadRequest, exception
     end
 
-    get '/auth/failure' do
+    get '/auth/failure', provides: :html do
       redirect '/' unless params[:message].present?
 
-      render_alert_partial title: 'Provider Authentication Error', message: "The authentication provider returned the following error: #{params[:message].sub(/\.$/, '')}. Please try again."
+      render_alert error: 'Provider Authentication Error', message: "The authentication provider returned the following error: #{params[:message].sub(/\.$/, '')}. Please try again."
     end
 
     # Authentication Response
     # https://indieauth.spec.indieweb.org/#authentication-response
-    get '/auth/github/callback' do
+    get '/auth/github/callback', provides: :html do
       raise HttpForbidden, 'Authentication provider returned an unrecognized user' unless valid_user?
       raise HttpLoginTimeout, 'Session expired during authentication' unless valid_session?
 
@@ -81,36 +90,36 @@ module AuthenticateComputer
 
     # Authorization Code Verification
     # https://indieauth.spec.indieweb.org/#authorization-code-verification
-    # post '/auth' do
-    #   param :code,         required: true
-    #   param :client_id,    required: true, format: uri_regexp, match: session['client_id']
-    #   param :redirect_uri, required: true, format: uri_regexp, match: session['redirect_uri']
+    # post '/auth', provides: :json do
+    #   param :code,         required: true, format: /^[a-f0-9]{32}$/
+    #   param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    #   param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    # rescue Sinatra::Param::InvalidParameterError => exception
+    #   raise HttpBadRequest, exception
     # end
 
     error 400 do
-      render_alert_partial title: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
+      render_alert error: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
     end
 
     error 401 do
-      render_alert_partial title: '401 Unauthorized', message: "#{request.env['sinatra.error'].message}."
+      render_alert error: '401 Unauthorized', message: "#{request.env['sinatra.error'].message}."
     end
 
     error 403 do
-      render_alert_partial title: '403 Forbidden', message: "#{request.env['sinatra.error'].message}."
+      render_alert error: '403 Forbidden', message: "#{request.env['sinatra.error'].message}."
     end
 
     error 404 do
-      cache_control :public
-
-      render_alert_partial title: '404 File Not Found', message: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
+      render_alert error: '404 File Not Found', message: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
     end
 
     error 440 do
-      render_alert_partial title: '440 Session Timeout', message: "#{request.env['sinatra.error'].message}. Please try again."
+      render_alert error: '440 Session Timeout', message: "#{request.env['sinatra.error'].message}. Please try again."
     end
 
     error 500 do
-      render_alert_partial title: '500 Internal Server Error', message: "#{request.env['sinatra.error'].message}. Please try again later."
+      render_alert error: '500 Internal Server Error', message: "#{request.env['sinatra.error'].message}. Please try again later."
     end
 
     private

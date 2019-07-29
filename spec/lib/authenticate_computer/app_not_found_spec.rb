@@ -1,5 +1,9 @@
 describe AuthenticateComputer::App do
   context 'when GET /foo' do
+    before do
+      header 'Accept', 'text/html'
+    end
+
     it 'renders the 404 view' do
       get '/foo'
 

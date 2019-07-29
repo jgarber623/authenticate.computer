@@ -4,6 +4,7 @@ module AuthenticateComputer
     HttpBadRequest:          400,
     HttpUnauthorized:        401,
     HttpForbidden:           403,
+    HttpNotAcceptable:       406,
     HttpLoginTimeout:        440,
     HttpInternalServerError: 500
   }.freeze
