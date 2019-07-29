@@ -65,10 +65,16 @@ module AuthenticateComputer
       raise HttpBadRequest, exception
     end
 
+    # Authentication Error Response
+    # https://tools.ietf.org/html/rfc6749#section-4.1.2.1
     get '/auth/failure', provides: :html do
-      redirect '/' unless params[:message].present?
+      redirect '/' unless session[:redirect_uri] && params[:message].present?
 
-      render_alert error: 'Provider Authentication Error', message: "The authentication provider returned the following error: #{params[:message].sub(/\.$/, '')}. Please try again."
+      redirect_uri = "#{session[:redirect_uri]}?error=#{params[:message]}"
+
+      session.clear
+
+      redirect redirect_uri
     end
 
     # Authentication Response
