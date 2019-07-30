@@ -15,15 +15,8 @@ describe AuthenticateComputer::App, 'when GET /auth' do
     }
   end
 
-  let :http_response_headers do
-    {
-      'Content-Type': 'text/html',
-      'Link': %(<#{redirect_uri}>; rel="redirect_uri")
-    }
-  end
-
   before do
-    stub_request(:get, client_id).to_return(headers: http_response_headers)
+    stub_request(:get, client_id).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{redirect_uri}>; rel="redirect_uri") })
   end
 
   context 'when params[:me] is not present' do
