@@ -8,6 +8,7 @@ module AuthenticateComputer
     configure do
       set :root, File.dirname(File.expand_path('..', __dir__))
 
+      set :datastore, Redis.new
       set :partial_template_engine, :erb
       set :partial_underscores, true
       set :raise_sinatra_param_exceptions, true
@@ -85,7 +86,10 @@ module AuthenticateComputer
       if valid_user?
         code = SecureRandom.hex(32)
 
-        # TODO: store data in Redis
+        key = [code, session[:client_id], session[:redirect_uri]].join('_')
+        value = session.to_h.slice('me', 'scope', 'response_type').to_json
+
+        settings.datastore.set(key, value, ex: 60)
 
         redirect_params = { code: code, state: session[:state] }
       else
@@ -102,18 +106,25 @@ module AuthenticateComputer
     # Authorization Code Verification
     # https://indieauth.spec.indieweb.org/#authorization-code-verification
     post '/auth', provides: :json do
-      param :code,         required: true, format: /^[a-f0-9]{64}$/
-      param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-      param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      code         = param :code,         required: true, format: /^[a-f0-9]{64}$/
+      client_id    = param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      redirect_uri = param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
 
-      # TODO: look for data in Redis
-      # TODO: return JSON { me: <url> }
+      key = [code, client_id, redirect_uri].join('_')
+
+      raise HttpBadRequest, 'Authorization code verification could not be completed' unless settings.datastore.exists(key)
+
+      value = JSON.parse(settings.datastore.get(key))
+
+      settings.datastore.del(key) if value['response_type'] == 'id'
+
+      json me: value['me']
     rescue Sinatra::Param::InvalidParameterError => exception
       raise HttpBadRequest, exception
     end
 
     error 400 do
-      render_alert error: 'invalid_request', title: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please correct this error and try again."
+      render_alert error: 'invalid_request', title: '400 Bad Request', message: "#{request.env['sinatra.error'].message}. Please try again."
     end
 
     error 404 do
