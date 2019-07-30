@@ -3,13 +3,34 @@
 <head>
   <meta charset="utf-8">
 
-  <title>authenticate.computer</title>
+  <title>authenticate.computer – Sign in using your own domain</title>
+
+  <meta name="apple-mobile-web-app-title" content="authenticate.computer">
+  <meta name="application-name" content="authenticate.computer">
+  <meta name="description" content="An IndieAuth-compatible service providing authorization and token endpoints.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@jgarber">
+  <meta property="og:description" content="An IndieAuth-compatible service providing authorization and token endpoints.">
+  <meta property="og:title" content="authenticate.computer">
 </head>
 <body>
+
+  <header class="h-x-app">
+    <h1><a href="/" class="p-name u-url" rel="home">authenticate.computer</a></h1>
+
+    <p class="p-summary">An <a href="https://indieweb.org/IndieAuth">IndieAuth</a>-compatible service providing authorization and token endpoints.</p>
+  </header>
 
   <main>
     <%= yield %>
   </main>
+
+  <footer>
+    <p>Designed and built by <a href="https://sixtwothree.org" class="h-card">Jason Garber</a>. Curious about the IndieWeb? Visit <a href="https://indieweb.org">indieweb.org</a> for details.</p>
+    <small>authenticate.computer is freely available under the <a href="https://opensource.org/licenses/MIT" rel="license">MIT License</a>. Source code is available on <a href="https://github.com/jgarber623/authenticate.computer" rel="source">GitHub</a>.</small>
+  </footer>
 
 </body>
 </html>
