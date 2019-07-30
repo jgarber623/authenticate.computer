@@ -1,4 +1,6 @@
 language: ruby
+services:
+  - redis-server
 cache:
   - bundler
 before_install:
