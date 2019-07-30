@@ -1,29 +1,27 @@
-describe AuthenticateComputer::App do
-  context 'when GET /auth/failure' do
-    context 'when params[:message] is not present' do
-      it 'redirects to the homepage' do
-        get '/auth/failure'
+describe AuthenticateComputer::App, 'when GET /auth/failure' do
+  context 'when params[:message] is not present' do
+    before do
+      get '/auth/failure'
 
-        expect(last_response.redirect?).to be(true)
-
-        follow_redirect! # => /
-
-        expect(last_request.path).to eq('/')
-        expect(last_response.status).to eq(200)
-      end
+      follow_redirect! # => /
     end
 
-    context 'when params[:message] is blank' do
-      it 'redirects to the homepage' do
-        get '/auth/failure', message: ''
+    it 'redirects to the homepage' do
+      expect(last_request.path).to eq('/')
+      expect(last_response.status).to eq(200)
+    end
+  end
 
-        expect(last_response.redirect?).to be(true)
+  context 'when params[:message] is blank' do
+    before do
+      get '/auth/failure', message: ''
 
-        follow_redirect! # => /
+      follow_redirect! # => /
+    end
 
-        expect(last_request.path).to eq('/')
-        expect(last_response.status).to eq(200)
-      end
+    it 'redirects to the homepage' do
+      expect(last_request.path).to eq('/')
+      expect(last_response.status).to eq(200)
     end
   end
 end
