@@ -1,23 +1,10 @@
 describe AuthenticateComputer::App, 'when GET /auth/failure' do
-  context 'when params[:message] is not present' do
-    it 'redirects to the homepage' do
+  context 'when session is invalid' do
+    it 'renders the 400 view' do
       get '/auth/failure'
 
-      follow_redirect! # => /
-
-      expect(last_request.path).to eq('/')
-      expect(last_response.status).to eq(200)
-    end
-  end
-
-  context 'when params[:message] is blank' do
-    it 'redirects to the homepage' do
-      get '/auth/failure', message: ''
-
-      follow_redirect! # => /
-
-      expect(last_request.path).to eq('/')
-      expect(last_response.status).to eq(200)
+      expect(last_response.status).to eq(400)
+      expect(last_response.body).to include('An authentication error prevented successful completion of the request')
     end
   end
 end

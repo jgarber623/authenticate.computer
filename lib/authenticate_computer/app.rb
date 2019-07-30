@@ -25,6 +25,7 @@ module AuthenticateComputer
       end
 
       OmniAuth.config.allowed_request_methods = [:post]
+      OmniAuth.config.on_failure = ->(env) { OmniAuth::FailureEndpoint.new(env).redirect_to_failure }
     end
 
     helpers do
@@ -69,7 +70,7 @@ module AuthenticateComputer
     # Authentication Error Response
     # https://tools.ietf.org/html/rfc6749#section-4.1.2.1
     get '/auth/failure', provides: :html do
-      redirect '/' unless valid_session? && params[:message].present?
+      raise HttpBadRequest, 'An authentication error prevented successful completion of the request' unless valid_session?
 
       redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(error: params[:message], state: session[:state])}"
 
