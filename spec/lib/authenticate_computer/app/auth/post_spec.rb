@@ -4,7 +4,7 @@ describe AuthenticateComputer::App, 'when POST /auth' do
   let(:client_id) { 'https://client_id.example.com' }
   let(:redirect_uri) { 'https://me.example.com/auth' }
 
-  let :populated_session do
+  let(:populated_session) do
     {
       'me' => "#{me}/",
       'client_id' => "#{client_id}/",

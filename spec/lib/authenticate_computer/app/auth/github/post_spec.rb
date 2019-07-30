@@ -3,7 +3,7 @@ describe AuthenticateComputer::App, 'when POST /auth/github' do
   let(:redirect_uri) { 'https://me.example.com/auth' }
   let(:state) { SecureRandom.hex(32) }
 
-  let :populated_session do
+  let(:populated_session) do
     {
       'csrf' => authenticity_token,
       'me' => 'https://me.example.com/',

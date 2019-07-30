@@ -4,7 +4,7 @@ describe AuthenticateComputer::App, 'when GET /auth' do
   let(:redirect_uri) { 'https://me.example.com/auth' }
   let(:state) { SecureRandom.hex(32) }
 
-  let :populated_session do
+  let(:populated_session) do
     {
       'me' => "#{me}/",
       'client_id' => "#{client_id}/",

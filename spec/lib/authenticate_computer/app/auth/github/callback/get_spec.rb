@@ -17,7 +17,7 @@ describe AuthenticateComputer::App, 'when GET /auth/github/callback' do
     let(:code) { SecureRandom.hex(32) }
     let(:state) { SecureRandom.hex(32) }
 
-    let :populated_session do
+    let(:populated_session) do
       {
         'me' => 'https://me.example.com/',
         'client_id' => 'https://client_id.example.com/',
