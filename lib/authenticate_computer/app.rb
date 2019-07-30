@@ -52,12 +52,12 @@ module AuthenticateComputer
     # Authentication Request
     # https://indieauth.spec.indieweb.org/#authentication-request
     get '/auth', provides: :html do
-      session[:me]            = param :me,            required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-      session[:client_id]     = param :client_id,     required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-      session[:redirect_uri]  = param :redirect_uri,  required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact, transform: ->(url) { normalize_url(url) }
-      session[:state]         = param :state,         required: true, minlength: 16
-      session[:scope]         = param :scope,         default: ''
-      session[:response_type] = param :response_type, default: 'id', in: %w[code id]
+      session[:me]            = param :me,            :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      session[:client_id]     = param :client_id,     :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      session[:redirect_uri]  = param :redirect_uri,  :string, required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact, transform: ->(url) { normalize_url(url) }
+      session[:state]         = param :state,         :string, required: true, minlength: 16
+      session[:scope]         = param :scope,         :array,  default: [], delimiter: /(?:\+|%20)+/
+      session[:response_type] = param :response_type, :string, default: 'id', in: %w[code id]
 
       # TODO: fetch the me URL for user information
       # TODO: fetch the client_id URL for app information

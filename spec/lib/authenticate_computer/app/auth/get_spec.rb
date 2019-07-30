@@ -10,7 +10,7 @@ describe AuthenticateComputer::App, 'when GET /auth' do
       'client_id' => "#{client_id}/",
       'redirect_uri' => redirect_uri,
       'state' => state,
-      'scope' => '',
+      'scope' => [],
       'response_type' => 'id'
     }
   end
