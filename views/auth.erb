@@ -1,6 +1,4 @@
-<h1>Sign in to <b><%= client_id %></b></h1>
-
-<p>Use one of the services below to authenticate as <b><%= me %></b>.</p>
+<%= partial :authentication, locals: { client_id: client_id, me: me } if response_type == 'id' %>
 
 <form action="/auth/github" method="post">
   <input type="hidden" name="authenticity_token" value="<%= csrf_token %>">
