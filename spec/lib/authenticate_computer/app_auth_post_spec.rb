@@ -100,8 +100,6 @@ describe AuthenticateComputer::App do
       end
 
       it 'renders the response JSON' do
-        puts last_response.body
-
         expect(last_response.status).to eq(200)
         expect(last_response.body).to eq({ me: "#{me}/" }.to_json)
       end
