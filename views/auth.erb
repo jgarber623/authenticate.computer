@@ -1,11 +1,11 @@
-<h1>Sign in to <b><%= params[:client_id] %></b></h1>
+<h1>Sign in to <b><%= client_id %></b></h1>
 
-<p>Use one of the services below to authenticate as <b><%= params[:me] %></b>.</p>
+<p>Use one of the services below to authenticate as <b><%= me %></b>.</p>
 
 <form action="/auth/github" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= env['rack.session'][:csrf] %>">
+  <input type="hidden" name="authenticity_token" value="<%= csrf_token %>">
 
   <button>Authenticate with GitHub</button>
 </form>
 
-<p>You will be redirected to <b><%= params[:redirect_uri] %></b> after authorizing this application’s request.</p>
+<p>You will be redirected to <b><%= redirect_uri %></b> after authorizing this application’s request.</p>
