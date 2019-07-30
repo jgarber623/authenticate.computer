@@ -56,7 +56,7 @@ module AuthenticateComputer
       session[:client_id]     = param :client_id,     :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
       session[:redirect_uri]  = param :redirect_uri,  :string, required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact, transform: ->(url) { normalize_url(url) }
       session[:state]         = param :state,         :string, required: true, minlength: 16
-      session[:scope]         = param :scope,         :array,  default: [], delimiter: /(?:\+|%20)+/
+      session[:scope]         = param :scope,         :array,  default: [], delimiter: /(?:\+|,|%20)+/
       session[:response_type] = param :response_type, :string, default: 'id', in: %w[code id]
 
       # TODO: fetch the me URL for user information
