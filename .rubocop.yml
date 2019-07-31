@@ -4,6 +4,7 @@ require:
 
 Metrics/BlockLength:
   Exclude:
+    - app/controllers/authentications_controller.rb
     - spec/**/*.rb
 
 Metrics/LineLength:

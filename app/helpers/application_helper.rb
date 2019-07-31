@@ -3,6 +3,10 @@ module ApplicationHelper
     /^[a-f0-9]{64}$/
   end
 
+  def host_from(url)
+    Addressable::URI.parse(url).host
+  end
+
   def normalize_url(url)
     Addressable::URI.parse(url).normalize.to_s
   end

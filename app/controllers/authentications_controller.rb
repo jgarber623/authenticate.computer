@@ -5,7 +5,7 @@ class AuthenticationsController < ApplicationController
     get provides: :html do
       session[:me]            = param :me,            :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
       session[:client_id]     = param :client_id,     :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-      session[:redirect_uri]  = param :redirect_uri,  :string, required: true, format: uri_regexp, in: [valid_redirect_uris(params[:client_id], params[:redirect_uri])].flatten.compact, transform: ->(url) { normalize_url(url) }
+      session[:redirect_uri]  = param :redirect_uri,  :string, required: true, format: uri_regexp, in: redirect_uris_from(params[:client_id], params[:redirect_uri]), transform: ->(url) { normalize_url(url) }
       session[:state]         = param :state,         :string, required: true, minlength: 16
       session[:scope]         = param :scope,         :array,  default: [], delimiter: /(?:\+|,|%20)+/
       session[:response_type] = param :response_type, :string, default: 'id', in: %w[code id]
@@ -81,14 +81,12 @@ class AuthenticationsController < ApplicationController
 
   private
 
-  def valid_redirect_uris(client_id, redirect_uri)
-    return unless client_id && redirect_uri
+  def redirect_uris_from(client_id, redirect_uri)
+    return [] unless client_id && redirect_uri
 
-    return redirect_uri if Addressable::URI.parse(redirect_uri).host == Addressable::URI.parse(client_id).host
+    return [redirect_uri] if host_from(redirect_uri) == host_from(client_id)
 
-    IndieWeb::Endpoints.get(client_id).redirect_uri
-  rescue IndieWeb::Endpoints::IndieWebEndpointsError
-    raise HttpInternalServerError, 'There was a problem fulfilling the request'
+    EndpointDiscoveryService.new.get(client_id, :redirect_uri)
   end
 
   def valid_session?
