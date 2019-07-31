@@ -28,7 +28,7 @@ describe AuthenticateComputer::App, 'when performing an Authentication Request',
       'client_id' => client_id,
       'redirect_uri' => redirect_uri,
       'state' => state,
-      'scope' => scope,
+      'scope' => scope.split('+'),
       'response_type' => response_type
     }
   end

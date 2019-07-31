@@ -90,7 +90,7 @@ describe AuthenticateComputer::App, 'when POST /auth', omniauth: true do
         'client_id' => client_id,
         'redirect_uri' => redirect_uri,
         'state' => SecureRandom.hex(32),
-        'scope' => '',
+        'scope' => [],
         'response_type' => 'id'
       }
     end

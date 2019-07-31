@@ -5,7 +5,7 @@ describe AuthenticateComputer::App, 'when performing an Authorization Request', 
   let(:client_id) { 'https://client_id.example.com/' }
   let(:redirect_uri) { 'https://indieauth.com/success' }
   let(:state) { SecureRandom.hex(8) }
-  let(:scope) { 'create update delete' }
+  let(:scope) { 'create+update+delete' }
   let(:response_type) { 'code' }
 
   let(:code) { SecureRandom.hex(32) }
@@ -31,7 +31,7 @@ describe AuthenticateComputer::App, 'when performing an Authorization Request', 
       'client_id' => client_id,
       'redirect_uri' => redirect_uri,
       'state' => state,
-      'scope' => '',
+      'scope' => scope.split('+'),
       'response_type' => response_type
     }
   end

@@ -10,7 +10,7 @@ describe AuthenticateComputer::App, 'when POST /auth/github', omniauth: true do
       'client_id' => 'https://client_id.example.com/',
       'redirect_uri' => redirect_uri,
       'state' => state,
-      'scope' => '',
+      'scope' => [],
       'response_type' => 'id'
     }
   end
