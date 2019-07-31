@@ -62,7 +62,7 @@ module AuthenticateComputer
       # TODO: fetch the me URL for user information
       # TODO: fetch the client_id URL for app information
 
-      erb :auth, locals: { csrf_token: env['rack.session'][:csrf] }.merge(session.to_h.slice('me', 'client_id', 'redirect_uri', 'scope', 'response_type'))
+      erb :auth, locals: { csrf_token: session[:csrf] }.merge(session.to_h.slice('me', 'client_id', 'redirect_uri', 'scope', 'response_type'))
     rescue Sinatra::Param::InvalidParameterError => exception
       raise HttpBadRequest, exception
     end
