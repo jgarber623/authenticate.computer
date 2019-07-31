@@ -1,9 +1,9 @@
-describe AuthenticateComputer::App, 'when POST /auth/github', omniauth: true do
+describe AuthenticationsController, 'POST /auth/github', omniauth: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
   let(:redirect_uri) { 'https://me.example.com/auth' }
   let(:state) { SecureRandom.hex(32) }
 
-  let(:populated_session) do
+  let(:session_hash) do
     {
       'csrf' => authenticity_token,
       'me' => 'https://me.example.com/',
@@ -19,14 +19,14 @@ describe AuthenticateComputer::App, 'when POST /auth/github', omniauth: true do
     before do
       OmniAuth.config.mock_auth[:github] = :access_denied
 
-      post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
+      post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => session_hash
 
       follow_redirect! # => /auth/github/callback
       follow_redirect! # => /auth/failure
     end
 
     it 'clears the session' do
-      expect(last_request.session.to_h).not_to include(populated_session)
+      expect(last_request.session.to_h).not_to include(session_hash)
     end
 
     it 'redirects the user' do
@@ -40,13 +40,13 @@ describe AuthenticateComputer::App, 'when POST /auth/github', omniauth: true do
     before do
       OmniAuth.config.add_mock(:github, info: { nickname: 'foo' })
 
-      post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
+      post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => session_hash
 
       follow_redirect! # => /auth/github/callback
     end
 
     it 'clears the session' do
-      expect(last_request.session.to_h).not_to include(populated_session)
+      expect(last_request.session.to_h).not_to include(session_hash)
     end
 
     it 'redirects the user' do

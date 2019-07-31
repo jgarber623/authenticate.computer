@@ -1,4 +1,4 @@
-describe AuthenticateComputer::App, 'when GET /auth/github/callback', omniauth: true, redis: true do
+describe AuthenticationsController, 'GET /auth/github/callback', omniauth: true, redis: true do
   context 'when session timeout' do
     it 'renders the 440 view' do
       get '/auth/github/callback', {}, 'rack.session' => {}
@@ -13,7 +13,7 @@ describe AuthenticateComputer::App, 'when GET /auth/github/callback', omniauth: 
     let(:code) { SecureRandom.hex(32) }
     let(:state) { SecureRandom.hex(32) }
 
-    let(:populated_session) do
+    let(:session_hash) do
       {
         'me' => 'https://me.example.com/',
         'client_id' => 'https://client_id.example.com/',
@@ -29,11 +29,11 @@ describe AuthenticateComputer::App, 'when GET /auth/github/callback', omniauth: 
 
       allow(SecureRandom).to receive(:hex).and_return(code)
 
-      get '/auth/github/callback', {}, 'rack.session' => populated_session
+      get '/auth/github/callback', {}, 'rack.session' => session_hash
     end
 
     it 'clears the session' do
-      expect(last_request.session.to_h).not_to include(populated_session)
+      expect(last_request.session.to_h).not_to include(session_hash)
     end
 
     it 'redirects the user' do

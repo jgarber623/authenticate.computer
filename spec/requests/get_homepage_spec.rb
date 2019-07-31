@@ -1,4 +1,4 @@
-describe AuthenticateComputer::App, 'when GET /' do
+describe PagesController, 'GET /' do
   it 'renders the homepage view' do
     get '/'
 

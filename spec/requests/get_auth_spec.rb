@@ -1,4 +1,4 @@
-describe AuthenticateComputer::App, 'when GET /auth' do
+describe AuthenticationsController, 'GET /auth' do
   let(:me) { 'https://me.example.com/' }
   let(:client_id) { 'https://client_id.example.com/' }
   let(:redirect_uri) { 'https://me.example.com/auth' }
@@ -115,7 +115,7 @@ describe AuthenticateComputer::App, 'when GET /auth' do
   end
 
   context 'when authentication request is valid' do
-    let(:populated_session) do
+    let(:session_hash) do
       {
         'me' => me,
         'client_id' => client_id,
@@ -131,7 +131,7 @@ describe AuthenticateComputer::App, 'when GET /auth' do
     end
 
     it 'populates the session' do
-      expect(last_request.session.to_h).to include(populated_session)
+      expect(last_request.session.to_h).to include(session_hash)
     end
 
     it 'renders the auth view' do
@@ -140,7 +140,7 @@ describe AuthenticateComputer::App, 'when GET /auth' do
   end
 
   context 'when authorization request is valid' do
-    let(:populated_session) do
+    let(:session_hash) do
       {
         'me' => me,
         'client_id' => client_id,
@@ -156,7 +156,7 @@ describe AuthenticateComputer::App, 'when GET /auth' do
     end
 
     it 'populates the session' do
-      expect(last_request.session.to_h).to include(populated_session)
+      expect(last_request.session.to_h).to include(session_hash)
     end
 
     it 'renders the auth view' do

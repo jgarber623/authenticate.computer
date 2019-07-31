@@ -1,4 +1,4 @@
-describe AuthenticateComputer::App, 'when performing an Authorization Request', omniauth: true, redis: true do
+describe ApplicationController, 'when performing an Authorization Request', omniauth: true, redis: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
 
   let(:me) { 'https://me.example.com/' }
@@ -13,7 +13,7 @@ describe AuthenticateComputer::App, 'when performing an Authorization Request', 
 
   let(:authorization_endpoint) { 'https://auth.example.com/auth' }
 
-  let(:populated_parameters) do
+  let(:parameters_hash) do
     {
       me: me,
       client_id: client_id,
@@ -24,7 +24,7 @@ describe AuthenticateComputer::App, 'when performing an Authorization Request', 
     }
   end
 
-  let(:populated_session) do
+  let(:session_hash) do
     {
       'csrf' => authenticity_token,
       'me' => me,
@@ -44,8 +44,8 @@ describe AuthenticateComputer::App, 'when performing an Authorization Request', 
     stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
     stub_request(:post, authorization_endpoint).to_return(body: { me: me, scope: scope }.to_json)
 
-    get '/auth', populated_parameters
-    post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
+    get '/auth', parameters_hash
+    post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => session_hash
 
     follow_redirect! # => /auth/github/callback
 

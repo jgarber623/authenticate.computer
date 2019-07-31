@@ -2,7 +2,7 @@ require File.expand_path('config/environment', __dir__)
 
 require 'sinatra/asset_pipeline/task'
 
-Sinatra::AssetPipeline::Task.define! AuthenticateComputer::App
+Sinatra::AssetPipeline::Task.define! ApplicationController
 
 unless ENV['RACK_ENV'] == 'production'
   require 'reek/rake/task'
