@@ -1,13 +1,10 @@
 class ApplicationController < Sinatra::Base
-  register Sinatra::AssetPipeline
-  register Sinatra::Namespace
-  register Sinatra::Param
   register Sinatra::Partial
-  register Sinatra::RespondWith
 
   configure :production do
     use Rack::SslEnforcer, redirect_html: false
     use Rack::HostRedirect, %w[www.authenticate.computer] => 'authenticate.computer'
+    use Rack::Deflater
   end
 
   configure do
@@ -19,13 +16,15 @@ class ApplicationController < Sinatra::Base
     set :partial_underscores, true
     set :raise_sinatra_param_exceptions, true
 
-    use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
+    set :assets_css_compressor, :sass
+    set :assets_paths, %w[app/assets/stylesheets]
+    set :assets_precompile, %w[application.css]
 
-    use Rack::Deflater
+    use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
     use Rack::Protection, use: [:cookie_tossing]
     use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_METHOD'] == 'POST' && ['/auth', '/token'].include?(env['PATH_INFO']) }
-    use Rack::Protection::ContentSecurityPolicy, default_src: "'self'"
+    use Rack::Protection::ContentSecurityPolicy, default_src: "'self'", frame_ancestors: "'none'"
     use Rack::Protection::StrictTransport, max_age: 31_536_000, include_subdomains: true, preload: true
 
     use OmniAuth::Builder do
@@ -35,6 +34,11 @@ class ApplicationController < Sinatra::Base
     OmniAuth.config.allowed_request_methods = [:post]
     OmniAuth.config.on_failure = ->(env) { OmniAuth::FailureEndpoint.new(env).redirect_to_failure }
   end
+
+  register Sinatra::AssetPipeline
+  register Sinatra::Namespace
+  register Sinatra::Param
+  register Sinatra::RespondWith
 
   helpers ApplicationHelper
 
