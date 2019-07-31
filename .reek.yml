@@ -3,7 +3,7 @@ detectors:
     enabled: false
   UtilityFunction:
     exclude:
-      - AuthenticateComputer::App#normalize_url
+      - ApplicationController#normalize_url
 
 exclude_paths:
   - vendor/

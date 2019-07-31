@@ -6,10 +6,6 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
 
-Metrics/ClassLength:
-  Exclude:
-    - lib/authenticate_computer/app.rb
-
 Metrics/LineLength:
   Enabled: false
 
@@ -20,10 +16,10 @@ RSpec/DescribeMethod:
   Enabled: false
 
 RSpec/FilePath:
-  IgnoreMethods: true
+  Enabled: false
 
 RSpec/MultipleExpectations:
-  Max: 3
+  Max: 2
 
 Style/Documentation:
   Enabled: false
