@@ -1,5 +1,6 @@
 class ApplicationController < Sinatra::Base
   register Sinatra::AssetPipeline
+  register Sinatra::Namespace
   register Sinatra::Param
   register Sinatra::Partial
   register Sinatra::RespondWith
@@ -28,22 +29,7 @@ class ApplicationController < Sinatra::Base
     OmniAuth.config.on_failure = ->(env) { OmniAuth::FailureEndpoint.new(env).redirect_to_failure }
   end
 
-  helpers do
-    def normalize_url(url)
-      Addressable::URI.parse(url).normalize.to_s
-    end
-
-    def render_alert(**locals)
-      respond_to do |format|
-        format.html { partial :'shared/alert', locals: locals }
-        format.json { json error: locals[:error], error_description: "#{locals[:error_title]}: #{locals[:error_description]}" }
-      end
-    end
-
-    def uri_regexp
-      %r{^https?://.*}
-    end
-  end
+  helpers ApplicationHelper
 
   after do
     halt [406, { 'Content-Type' => 'text/plain' }, 'The requested format is not supported'] if status == 500 && body.include?('Unknown template engine')

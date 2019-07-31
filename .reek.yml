@@ -3,7 +3,7 @@ detectors:
     enabled: false
   UtilityFunction:
     exclude:
-      - ApplicationController#normalize_url
+      - ApplicationHelper
 
 exclude_paths:
   - vendor/
