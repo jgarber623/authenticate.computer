@@ -5,6 +5,11 @@ class ApplicationController < Sinatra::Base
   register Sinatra::Partial
   register Sinatra::RespondWith
 
+  configure :production do
+    use Rack::SslEnforcer, redirect_html: false
+    use Rack::HostRedirect, %w[www.authenticate.computer] => 'authenticate.computer'
+  end
+
   configure do
     set :root, File.dirname(File.expand_path('..', __dir__))
     set :views, 'app/views'
@@ -15,6 +20,8 @@ class ApplicationController < Sinatra::Base
     set :raise_sinatra_param_exceptions, true
 
     use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
+
+    use Rack::Deflater
 
     use Rack::Protection, use: [:cookie_tossing]
     use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_METHOD'] == 'POST' && ['/auth', '/token'].include?(env['PATH_INFO']) }
