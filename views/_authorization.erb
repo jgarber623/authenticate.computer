@@ -1,0 +1,10 @@
+<h1>Allow access to <b><%= me %></b></h1>
+
+<p>The application <%= client_id %> would like access to your website, <%= me %>.</p>
+<p><%= client_id %> is requesting the following permissions:</p>
+
+<ul>
+  <%= scope.map { |s| "<li>#{s}</li>" }.join %>
+</ul>
+
+<p>Use one of the services below to approve this request.</p>
