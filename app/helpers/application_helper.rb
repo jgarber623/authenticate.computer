@@ -13,7 +13,7 @@ module ApplicationHelper
 
   def render_alert(**locals)
     respond_to do |format|
-      format.html { partial :'shared/alert', locals: locals }
+      format.html { erb :'pages/error', locals: locals }
       format.json { json error: locals[:error], error_description: "#{locals[:error_title]}: #{locals[:error_description]}" }
     end
   end
