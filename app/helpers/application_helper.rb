@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def code_regexp
+    /^[a-f0-9]{64}$/
+  end
+
   def normalize_url(url)
     Addressable::URI.parse(url).normalize.to_s
   end
