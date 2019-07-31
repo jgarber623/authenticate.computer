@@ -1,5 +1,5 @@
-<%= partial :authentication, locals: { client_id: client_id, me: me } if response_type == 'id' %>
-<%= partial :authorization, locals: { client_id: client_id, me: me, scope: scope } if response_type == 'code' %>
+<%= partial :'authentications/authentication', locals: { client_id: client_id, me: me } if response_type == 'id' %>
+<%= partial :'authentications/authorization', locals: { client_id: client_id, me: me, scope: scope } if response_type == 'code' %>
 
 <form action="/auth/github" method="post">
   <input type="hidden" name="authenticity_token" value="<%= csrf_token %>">
