@@ -108,8 +108,8 @@ module AuthenticateComputer
     # https://indieauth.spec.indieweb.org/#authorization-code-verification
     post '/auth', provides: :json do
       code         = param :code,         required: true, format: /^[a-f0-9]{64}$/
-      client_id    = param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-      redirect_uri = param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+      client_id    = param :client_id,    required: true, format: uri_regexp
+      redirect_uri = param :redirect_uri, required: true, format: uri_regexp
 
       key = [code, client_id, redirect_uri].join('_')
 
