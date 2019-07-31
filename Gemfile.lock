@@ -219,6 +219,7 @@ DEPENDENCIES
   activesupport (~> 5.2)
   addressable (~> 2.6)
   dotenv (~> 2.7)
+  http (~> 5.0.0.pre)
   indieweb-endpoints (~> 1.0)
   omniauth (~> 1.9)
   omniauth-github (~> 1.3)
