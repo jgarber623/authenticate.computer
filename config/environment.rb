@@ -5,9 +5,11 @@ require 'bundler/setup'
 
 Bundler.require(:default, (ENV['RACK_ENV'] || 'development').to_sym)
 
+require 'models/error'
+
+require 'helpers/application_helper'
+
 require 'controllers/application_controller'
 require 'controllers/authentications_controller'
 require 'controllers/pages_controller'
 require 'controllers/tokens_controller'
-
-require 'models/error'
