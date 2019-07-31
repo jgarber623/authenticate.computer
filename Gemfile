@@ -14,6 +14,8 @@ gem 'rack-host-redirect', '~> 1.3'
 gem 'rack-protection', '~> 2.0'
 gem 'rack-ssl-enforcer', '~> 0.2.9'
 gem 'redis', '~> 4.1'
+gem 'sass', '~> 3.7'
+gem 'sass-globbing', '~> 1.1'
 gem 'sinatra', '~> 2.0'
 gem 'sinatra-asset-pipeline', '~> 2.2', require: 'sinatra/asset_pipeline'
 gem 'sinatra-contrib', '~> 2.0'
@@ -25,7 +27,7 @@ group :development, :test do
   gem 'rake', '~> 12.3'
   gem 'reek', '~> 5.4', require: false
   gem 'rspec', '~> 3.8'
-  gem 'rubocop', '~> 0.73.0', require: false
+  gem 'rubocop', '~> 0.74.0', require: false
   gem 'rubocop-performance', '~> 1.4', require: false
   gem 'rubocop-rspec', '~> 1.34', require: false
   gem 'webmock', '~> 3.6', require: false
