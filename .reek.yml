@@ -1,7 +1,4 @@
 detectors:
-  DuplicateMethodCall:
-    exclude:
-      - RSpec::RedisHelper#with_clean_redis
   IrresponsibleModule:
     enabled: false
   UtilityFunction:
