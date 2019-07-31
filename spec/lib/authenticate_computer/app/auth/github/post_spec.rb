@@ -1,4 +1,4 @@
-describe AuthenticateComputer::App, 'when POST /auth/github' do
+describe AuthenticateComputer::App, 'when POST /auth/github', omniauth: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
   let(:redirect_uri) { 'https://me.example.com/auth' }
   let(:state) { SecureRandom.hex(32) }
@@ -13,10 +13,6 @@ describe AuthenticateComputer::App, 'when POST /auth/github' do
       'scope' => '',
       'response_type' => 'id'
     }
-  end
-
-  before do
-    OmniAuth.config.mock_auth[:github] = nil
   end
 
   context 'when user denies access' do

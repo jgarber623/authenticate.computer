@@ -1,8 +1,4 @@
-describe AuthenticateComputer::App, 'when GET /auth/github/callback' do
-  before do
-    OmniAuth.config.mock_auth[:github] = nil
-  end
-
+describe AuthenticateComputer::App, 'when GET /auth/github/callback', omniauth: true, redis: true do
   context 'when session timeout' do
     it 'renders the 440 view' do
       get '/auth/github/callback', {}, 'rack.session' => {}

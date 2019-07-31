@@ -1,14 +1,17 @@
-describe AuthenticateComputer::App, 'when performing an Authentication Request', omniauth: true do
+describe AuthenticateComputer::App, 'when performing an Authorization Request', omniauth: true, redis: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
 
-  let(:me) { 'https://sixtwothree.org/' }
-  let(:client_id) { 'https://indieauth.com/' }
+  let(:me) { 'https://me.example.com/' }
+  let(:client_id) { 'https://client_id.example.com/' }
   let(:redirect_uri) { 'https://indieauth.com/success' }
   let(:state) { SecureRandom.hex(8) }
-  let(:scope) { '' }
-  let(:response_type) { 'id' }
+  let(:scope) { 'create update delete' }
+  let(:response_type) { 'code' }
 
   let(:code) { SecureRandom.hex(32) }
+  let(:token) { SecureRandom.hex(64) }
+
+  let(:authorization_endpoint) { 'https://auth.example.com/auth' }
 
   let(:populated_parameters) do
     {
@@ -28,7 +31,7 @@ describe AuthenticateComputer::App, 'when performing an Authentication Request',
       'client_id' => client_id,
       'redirect_uri' => redirect_uri,
       'state' => state,
-      'scope' => scope,
+      'scope' => '',
       'response_type' => response_type
     }
   end
@@ -38,17 +41,24 @@ describe AuthenticateComputer::App, 'when performing an Authentication Request',
 
     allow(SecureRandom).to receive(:hex).and_return(code)
 
+    stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
+    stub_request(:post, authorization_endpoint).to_return(body: { me: me, scope: scope }.to_json)
+
     get '/auth', populated_parameters
     post '/auth/github', { authenticity_token: authenticity_token }, 'rack.session' => populated_session
 
     follow_redirect! # => /auth/github/callback
 
     header 'Accept', 'application/json'
-    post '/auth', code: code, client_id: client_id, redirect_uri: redirect_uri
+    post '/token', grant_type: 'authorization_code', code: code, client_id: client_id, redirect_uri: redirect_uri, me: me
+
+    header 'Accept', 'application/json'
+    header 'Authorization', "Bearer #{token}"
+    get '/token'
   end
 
   it 'returns the response JSON' do
     expect(last_response.status).to eq(200)
-    expect(last_response.body).to eq({ me: me }.to_json)
+    expect(last_response.body).to eq({ me: me, client_id: client_id, scope: scope }.to_json)
   end
 end
