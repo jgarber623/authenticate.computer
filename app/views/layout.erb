@@ -14,22 +14,30 @@
   <meta name="twitter:site" content="@jgarber">
   <meta property="og:description" content="An IndieAuth-compatible service providing authorization and token endpoints.">
   <meta property="og:title" content="authenticate.computer">
+
+  <link rel="stylesheet" href="<%= stylesheet_path 'application.css' %>">
 </head>
 <body>
 
-  <header class="h-x-app">
-    <h1><a href="/" class="p-name u-url" rel="home">authenticate.computer</a></h1>
+  <header class="app-header h-x-app">
+    <div class="wrapper">
+      <h1><a href="/" class="p-name u-url" rel="home">authenticate.computer</a></h1>
 
-    <p class="p-summary">An <a href="https://indieweb.org/IndieAuth">IndieAuth</a>-compatible service providing authorization and token endpoints.</p>
+      <p class="p-summary">An <a href="https://indieweb.org/IndieAuth">IndieAuth</a>-compatible service providing authorization and token endpoints.</p>
+    </div>
   </header>
 
-  <main>
-    <%= yield %>
+  <main class="app-main">
+    <div class="wrapper">
+      <%= yield %>
+    </div>
   </main>
 
-  <footer>
-    <p>Designed and built by <a href="https://sixtwothree.org" class="h-card">Jason Garber</a>. Curious about the IndieWeb? Visit <a href="https://indieweb.org">indieweb.org</a> for details.</p>
-    <small>authenticate.computer is freely available under the <a href="https://opensource.org/licenses/MIT" rel="license">MIT License</a>. Source code is available on <a href="https://github.com/jgarber623/authenticate.computer" rel="source">GitHub</a>.</small>
+  <footer class="app-footer">
+    <div class="wrapper">
+      <p>Designed and built by <a href="https://sixtwothree.org" class="h-card">Jason Garber</a>. Curious about the IndieWeb? Visit <a href="https://indieweb.org">indieweb.org</a> for details.</p>
+      <small>authenticate.computer is freely available under the <a href="https://opensource.org/licenses/MIT" rel="license">MIT License</a>. Source code is available on <a href="https://github.com/jgarber623/authenticate.computer" rel="source">GitHub</a>.</small>
+    </div>
   </footer>
 
 </body>
