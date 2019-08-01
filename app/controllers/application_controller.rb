@@ -24,7 +24,7 @@ class ApplicationController < Sinatra::Base
 
     use Rack::Protection, use: [:cookie_tossing]
     use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_METHOD'] == 'POST' && ['/auth', '/token'].include?(env['PATH_INFO']) }
-    use Rack::Protection::ContentSecurityPolicy, default_src: "'self'", frame_ancestors: "'none'"
+    use Rack::Protection::ContentSecurityPolicy, default_src: "'self'", style_src: "'self' https://fonts.googleapis.com", font_src: "'self' https://fonts.gstatic.com", frame_ancestors: "'none'"
     use Rack::Protection::StrictTransport, max_age: 31_536_000, include_subdomains: true, preload: true
 
     use OmniAuth::Builder do
