@@ -36,7 +36,6 @@ class ApplicationController < Sinatra::Base
   end
 
   register Sinatra::AssetPipeline
-  register Sinatra::Namespace
   register Sinatra::Param
   register Sinatra::RespondWith
 
