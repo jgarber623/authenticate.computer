@@ -135,7 +135,7 @@ describe AuthenticationsController, 'GET /auth' do
     end
 
     it 'renders the auth view' do
-      expect(last_response.body).to include("Sign in to <b>#{client_id}</b>")
+      expect(last_response.body).to include('Sign in to <b>client_id.example.com</b>')
     end
   end
 
@@ -160,7 +160,7 @@ describe AuthenticationsController, 'GET /auth' do
     end
 
     it 'renders the auth view' do
-      expect(last_response.body).to include("Allow access to <b>#{me}</b>")
+      expect(last_response.body).to include('Allow access to <b>me.example.com</b>?')
     end
   end
 end
