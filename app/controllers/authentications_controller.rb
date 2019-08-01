@@ -84,7 +84,7 @@ class AuthenticationsController < ApplicationController
 
     return [redirect_uri] if host_from(redirect_uri) == host_from(client_id)
 
-    EndpointDiscoveryService.new.get(client_id, :redirect_uri)
+    EndpointDiscoveryService.new.get(client_id, :redirect_uri).to_a
   end
 
   def valid_session?
