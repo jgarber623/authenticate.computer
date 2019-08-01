@@ -17,8 +17,8 @@ class ApplicationController < Sinatra::Base
     set :raise_sinatra_param_exceptions, true
 
     set :assets_css_compressor, :sass
-    set :assets_paths, %w[app/assets/stylesheets]
-    set :assets_precompile, %w[application.css]
+    set :assets_paths, %w[app/assets/images app/assets/stylesheets]
+    set :assets_precompile, %w[*.png application.css]
 
     use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
