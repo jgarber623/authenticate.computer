@@ -1,0 +1,26 @@
+.app-header {
+  color: var(--white);
+  padding: var(--spacing);
+
+  h1 {
+    margin: 0;
+
+    a {
+      font-weight: inherit;
+      text-decoration: none;
+
+      &:focus,
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: var(--white);
+  }
+}

@@ -1,0 +1,37 @@
+.app-main {
+  background-color: var(--white);
+  min-height: 50vh;
+  padding: var(--spacing-jumbo) var(--spacing);
+
+  h1 {
+    border-bottom: 1px solid var(--athens-gray);
+    margin-top: 0;
+    padding-bottom: var(--spacing-tiny);
+  }
+
+  form {
+    margin: var(--spacing-large) auto;
+    max-width: 24rem;
+  }
+
+  .scopes-list {
+    list-style: none;
+    margin: var(--spacing) 0;
+    padding: 0;
+
+    li {
+      background-color: var(--fuchsia-blue);
+      border-radius: 0.25rem;
+      color: var(--white);
+      display: inline-block;
+      margin: 0 var(--spacing-tiny) var(--spacing-tiny) 0;
+      padding: var(--spacing-tiny) var(--spacing-small);
+    }
+  }
+
+  .redirect-note {
+    border-top: 1px solid var(--athens-gray);
+    color: var(--dove-gray);
+    padding-top: var(--spacing-small);
+  }
+}
