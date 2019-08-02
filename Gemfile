@@ -19,7 +19,7 @@ gem 'sass-globbing', '~> 1.1'
 gem 'sinatra', '~> 2.0'
 gem 'sinatra-asset-pipeline', '~> 2.2', require: 'sinatra/asset_pipeline'
 gem 'sinatra-contrib', '~> 2.0'
-gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.1.0'
+gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.1.1'
 gem 'sinatra-partial', '~> 1.0'
 
 group :development, :test do
@@ -29,7 +29,7 @@ group :development, :test do
   gem 'rspec', '~> 3.8'
   gem 'rubocop', '~> 0.74.0', require: false
   gem 'rubocop-performance', '~> 1.4', require: false
-  gem 'rubocop-rspec', '~> 1.34', require: false
+  gem 'rubocop-rspec', '~> 1.35', require: false
   gem 'webmock', '~> 3.6', require: false
 end
 
