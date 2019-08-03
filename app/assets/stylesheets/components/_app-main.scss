@@ -1,7 +1,25 @@
 .app-main {
-  background-color: var(--white);
-  min-height: 50vh;
-  padding: var(--spacing-jumbo) var(--spacing);
+  > .wrapper {
+    background-color: var(--white);
+    min-height: 50vh;
+    padding: var(--spacing-large) var(--spacing);
+    position: relative;
+
+    @include breakpoint(48rem) {
+      border-radius: 0.25rem;
+      padding: var(--spacing-large);
+    }
+
+    &::after {
+      background: url(image_path("icon.png")) no-repeat 50% 0;
+      background-size: contain;
+      content: "";
+      display: block;
+      height: 2rem;
+      margin-top: var(--spacing);
+      opacity: 0.1;
+    }
+  }
 
   h1 {
     border-bottom: 1px solid var(--athens-gray);
@@ -32,6 +50,7 @@
   .redirect-note {
     border-top: 1px solid var(--athens-gray);
     color: var(--dove-gray);
+    margin-bottom: 0;
     padding-top: var(--spacing-small);
   }
 }

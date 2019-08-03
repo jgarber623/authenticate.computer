@@ -2,6 +2,10 @@
   color: var(--white);
   padding: var(--spacing);
 
+  @include breakpoint(48rem) {
+    padding: var(--spacing-large) var(--spacing);
+  }
+
   h1 {
     margin: 0;
 
