@@ -9,12 +9,15 @@ class ApplicationController < Sinatra::Base
 
   configure do
     set :root, File.dirname(File.expand_path('..', __dir__))
-    set :views, 'app/views'
 
     set :datastore, Redis.new
+    set :server, :puma
+
+    set :raise_sinatra_param_exceptions, true
+
     set :partial_template_engine, :erb
     set :partial_underscores, true
-    set :raise_sinatra_param_exceptions, true
+    set :views, 'app/views'
 
     set :assets_css_compressor, :sass
     set :assets_paths, %w[app/assets/images app/assets/stylesheets]
