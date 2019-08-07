@@ -21,4 +21,8 @@ module ApplicationHelper
   def uri_regexp
     %r{^https?://.*}
   end
+
+  def url_from(uri, **params)
+    "#{uri}?#{URI.encode_www_form(params)}"
+  end
 end

@@ -22,11 +22,12 @@ class AuthenticateComputer < Sinatra::Base
   get '/auth/failure', provides: :html do
     raise HttpBadRequest, 'An authentication error prevented successful completion of the request' unless valid_session?
 
-    redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(error: params[:message], state: session[:state])}"
+    redirect_uri = session[:redirect_uri]
+    redirect_params = { error: params[:message], state: session[:state] }
 
     session.clear
 
-    redirect redirect_uri
+    redirect url_from(redirect_uri, redirect_params)
   end
 
   # Authentication Response
@@ -34,10 +35,12 @@ class AuthenticateComputer < Sinatra::Base
   get '/auth/github/callback', provides: :html do
     raise HttpLoginTimeout, 'Session expired during authentication' unless valid_session?
 
+    redirect_uri = session[:redirect_uri]
+
     if valid_user?
       code = SecureRandom.hex(32)
 
-      key = [code, session[:client_id], session[:redirect_uri]].join('_')
+      key = [code, session[:client_id], redirect_uri].join('_')
       value = session.to_h.slice('me', 'scope', 'response_type').to_json
 
       settings.datastore.set(key, value, ex: 60)
@@ -47,11 +50,9 @@ class AuthenticateComputer < Sinatra::Base
       redirect_params = { error: 'invalid_request', error_description: 'The authentication provider returned an unrecognized user', state: session[:state] }
     end
 
-    redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(redirect_params)}"
-
     session.clear
 
-    redirect redirect_uri
+    redirect url_from(redirect_uri, redirect_params)
   end
 
   # Authorization Code Verification
