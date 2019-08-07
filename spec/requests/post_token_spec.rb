@@ -1,4 +1,4 @@
-describe TokensController, 'POST /token', redis: true do
+describe AuthenticateComputer, 'POST /token', redis: true do
   let(:grant_type) { 'authorization_code' }
   let(:code) { SecureRandom.hex(32) }
   let(:client_id) { 'https://client_id.example.com/' }

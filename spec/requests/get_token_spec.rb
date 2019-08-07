@@ -1,4 +1,4 @@
-describe TokensController, 'GET /token' do
+describe AuthenticateComputer, 'GET /token' do
   let(:error) { 'invalid_request' }
 
   let(:error_hash) do

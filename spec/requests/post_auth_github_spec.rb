@@ -1,4 +1,4 @@
-describe AuthenticationsController, 'POST /auth/github', omniauth: true do
+describe AuthenticateComputer, 'POST /auth/github', omniauth: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
   let(:redirect_uri) { 'https://me.example.com/auth' }
   let(:state) { SecureRandom.hex(32) }

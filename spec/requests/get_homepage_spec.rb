@@ -1,4 +1,4 @@
-describe PagesController, 'GET /' do
+describe AuthenticateComputer, 'GET /' do
   it 'renders the homepage view' do
     get '/'
 

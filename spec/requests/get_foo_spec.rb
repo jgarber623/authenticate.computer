@@ -1,4 +1,4 @@
-describe PagesController, 'GET /foo' do
+describe AuthenticateComputer, 'GET /foo' do
   context 'when requesting text/html' do
     it 'renders the 404 view' do
       header 'Accept', 'text/html'

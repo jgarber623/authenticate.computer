@@ -1,4 +1,4 @@
-describe AuthenticationsController, 'GET /auth' do
+describe AuthenticateComputer, 'GET /auth' do
   let(:me) { 'https://me.example.com/' }
   let(:client_id) { 'https://client_id.example.com/' }
   let(:redirect_uri) { 'https://me.example.com/auth' }

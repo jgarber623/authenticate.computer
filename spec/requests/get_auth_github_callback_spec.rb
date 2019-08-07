@@ -1,4 +1,4 @@
-describe AuthenticationsController, 'GET /auth/github/callback', omniauth: true, redis: true do
+describe AuthenticateComputer, 'GET /auth/github/callback', omniauth: true, redis: true do
   context 'when session timeout' do
     it 'renders the 440 view' do
       get '/auth/github/callback', {}, 'rack.session' => {}

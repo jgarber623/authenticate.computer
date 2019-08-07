@@ -1,4 +1,4 @@
-describe AuthenticationsController, 'GET /auth/failure' do
+describe AuthenticateComputer, 'GET /auth/failure' do
   context 'when session is invalid' do
     it 'renders the 400 view' do
       get '/auth/failure'
