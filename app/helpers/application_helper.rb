@@ -7,6 +7,10 @@ module ApplicationHelper
     Addressable::URI.parse(url).host
   end
 
+  def key_from(*args)
+    args.join('_')
+  end
+
   def normalize_url(url)
     Addressable::URI.parse(url).normalize.to_s
   end

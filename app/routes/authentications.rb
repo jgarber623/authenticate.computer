@@ -40,7 +40,7 @@ class AuthenticateComputer < Sinatra::Base
     if valid_user?
       code = SecureRandom.hex(32)
 
-      key = [code, session[:client_id], redirect_uri].join('_')
+      key = key_from(code, session[:client_id], redirect_uri)
       value = session.to_h.slice('me', 'scope', 'response_type').to_json
 
       settings.datastore.set(key, value, ex: 60)
@@ -62,7 +62,7 @@ class AuthenticateComputer < Sinatra::Base
     client_id    = param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
     redirect_uri = param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
 
-    key = [code, client_id, redirect_uri].join('_')
+    key = key_from(code, client_id, redirect_uri)
 
     raise HttpBadRequest, 'Authorization code verification could not be completed' unless settings.datastore.exists(key)
 
