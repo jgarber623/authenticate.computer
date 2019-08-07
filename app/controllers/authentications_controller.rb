@@ -2,17 +2,26 @@ class AuthenticationsController < ApplicationController
   # Authentication Request
   # https://indieauth.spec.indieweb.org/#authentication-request
   get '/auth', provides: :html do
-    session[:me]            = param :me,            :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-    session[:client_id]     = param :client_id,     :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
-    session[:redirect_uri]  = param :redirect_uri,  :string, required: true, format: uri_regexp, in: redirect_uris_from(params[:client_id], params[:redirect_uri]), transform: ->(url) { normalize_url(url) }
-    session[:state]         = param :state,         :string, required: true, minlength: 16
-    session[:scope]         = param :scope,         :array,  default: [], delimiter: /(?:\s|%20|\+|,)+/
-    session[:response_type] = param :response_type, :string, default: 'id', in: %w[code id]
+    session['indieauth.me']            = param :me,            :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    session['indieauth.client_id']     = param :client_id,     :string, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    session['indieauth.redirect_uri']  = param :redirect_uri,  :string, required: true, format: uri_regexp, in: redirect_uris_from(params[:client_id], params[:redirect_uri]), transform: ->(url) { normalize_url(url) }
+    session['indieauth.state']         = param :state,         :string, required: true, minlength: 16
+    session['indieauth.scope']         = param :scope,         :array,  default: [], delimiter: /(?:\s|%20|\+|,)+/
+    session['indieauth.response_type'] = param :response_type, :string, default: 'id', in: %w[code id]
 
     # TODO: fetch the me URL for user information
     # TODO: fetch the client_id URL for app information
 
-    erb :'authentications/index', locals: { csrf_token: session[:csrf] }.merge(session.to_h.slice('me', 'client_id', 'redirect_uri', 'scope', 'response_type'))
+    locals = {
+      csrf_token: session[:csrf],
+      me: session['indieauth.me'],
+      client_id: session['indieauth.client_id'],
+      redirect_uri: session['indieauth.redirect_uri'],
+      scope: session['indieauth.scope'],
+      response_type: session['indieauth.response_type']
+    }
+
+    erb :'authentications/index', locals: locals
   rescue Sinatra::Param::InvalidParameterError => exception
     raise HttpBadRequest, exception
   end
@@ -22,7 +31,7 @@ class AuthenticationsController < ApplicationController
   get '/auth/failure', provides: :html do
     raise HttpBadRequest, 'An authentication error prevented successful completion of the request' unless valid_session?
 
-    redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(error: params[:message], state: session[:state])}"
+    redirect_uri = "#{session['indieauth.redirect_uri']}?#{URI.encode_www_form(error: params[:message], state: session['indieauth.state'])}"
 
     session.clear
 
@@ -37,17 +46,17 @@ class AuthenticationsController < ApplicationController
     if valid_user?
       code = SecureRandom.hex(32)
 
-      key = [code, session[:client_id], session[:redirect_uri]].join('_')
-      value = session.to_h.slice('me', 'scope', 'response_type').to_json
+      key = [code, session['indieauth.client_id'], session['indieauth.redirect_uri']].join('_')
+      value = { me: session['indieauth.me'], scope: session['indieauth.scope'], response_type: session['indieauth.response_type'] }.to_json
 
       settings.datastore.set(key, value, ex: 60)
 
-      redirect_params = { code: code, state: session[:state] }
+      redirect_params = { code: code, state: session['indieauth.state'] }
     else
-      redirect_params = { error: 'invalid_request', error_description: 'The authentication provider returned an unrecognized user', state: session[:state] }
+      redirect_params = { error: 'invalid_request', error_description: 'The authentication provider returned an unrecognized user', state: session['indieauth.state'] }
     end
 
-    redirect_uri = "#{session[:redirect_uri]}?#{URI.encode_www_form(redirect_params)}"
+    redirect_uri = "#{session['indieauth.redirect_uri']}?#{URI.encode_www_form(redirect_params)}"
 
     session.clear
 
@@ -88,7 +97,7 @@ class AuthenticationsController < ApplicationController
   end
 
   def valid_session?
-    %w[me client_id redirect_uri state scope response_type].all? { |key| session.key?(key) }
+    %w[me client_id redirect_uri state scope response_type].all? { |key| session.key?("indieauth.#{key}") }
   end
 
   def valid_user?

@@ -117,12 +117,12 @@ describe AuthenticationsController, 'GET /auth' do
   context 'when authentication request is valid' do
     let(:session_hash) do
       {
-        'me' => me,
-        'client_id' => client_id,
-        'redirect_uri' => redirect_uri,
-        'state' => state,
-        'scope' => [],
-        'response_type' => 'id'
+        'indieauth.me' => me,
+        'indieauth.client_id' => client_id,
+        'indieauth.redirect_uri' => redirect_uri,
+        'indieauth.state' => state,
+        'indieauth.scope' => [],
+        'indieauth.response_type' => 'id'
       }
     end
 
@@ -142,12 +142,12 @@ describe AuthenticationsController, 'GET /auth' do
   context 'when authorization request is valid' do
     let(:session_hash) do
       {
-        'me' => me,
-        'client_id' => client_id,
-        'redirect_uri' => redirect_uri,
-        'state' => state,
-        'scope' => scope.split('+'),
-        'response_type' => 'code'
+        'indieauth.me' => me,
+        'indieauth.client_id' => client_id,
+        'indieauth.redirect_uri' => redirect_uri,
+        'indieauth.state' => state,
+        'indieauth.scope' => scope.split('+'),
+        'indieauth.response_type' => 'code'
       }
     end
 

@@ -15,12 +15,12 @@ describe AuthenticationsController, 'GET /auth/github/callback', omniauth: true,
 
     let(:session_hash) do
       {
-        'me' => 'https://me.example.com/',
-        'client_id' => 'https://client_id.example.com/',
-        'redirect_uri' => redirect_uri,
-        'state' => state,
-        'scope' => [],
-        'response_type' => 'id'
+        'indieauth.me' => 'https://me.example.com/',
+        'indieauth.client_id' => 'https://client_id.example.com/',
+        'indieauth.redirect_uri' => redirect_uri,
+        'indieauth.state' => state,
+        'indieauth.scope' => [],
+        'indieauth.response_type' => 'id'
       }
     end
 

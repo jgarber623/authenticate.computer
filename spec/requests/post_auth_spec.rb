@@ -86,12 +86,12 @@ describe AuthenticationsController, 'POST /auth', omniauth: true, redis: true do
   context 'when authorization code verification request is valid' do
     let(:populated_session) do
       {
-        'me' => me,
-        'client_id' => client_id,
-        'redirect_uri' => redirect_uri,
-        'state' => SecureRandom.hex(32),
-        'scope' => [],
-        'response_type' => 'id'
+        'indieauth.me' => me,
+        'indieauth.client_id' => client_id,
+        'indieauth.redirect_uri' => redirect_uri,
+        'indieauth.state' => SecureRandom.hex(32),
+        'indieauth.scope' => [],
+        'indieauth.response_type' => 'id'
       }
     end
 
