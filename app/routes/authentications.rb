@@ -58,8 +58,8 @@ class AuthenticateComputer < Sinatra::Base
   # https://indieauth.spec.indieweb.org/#authorization-code-verification
   post '/auth', provides: :json do
     code         = param :code,         required: true, format: code_regexp
-    client_id    = param :client_id,    required: true, format: uri_regexp
-    redirect_uri = param :redirect_uri, required: true, format: uri_regexp
+    client_id    = param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    redirect_uri = param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
 
     key = [code, client_id, redirect_uri].join('_')
 

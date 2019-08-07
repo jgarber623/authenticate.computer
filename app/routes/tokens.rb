@@ -4,9 +4,9 @@ class AuthenticateComputer < Sinatra::Base
   post '/token', provides: :json do
     param :grant_type,   required: true, match: 'authorization_code'
     param :code,         required: true, format: code_regexp
-    param :client_id,    required: true, format: uri_regexp
-    param :redirect_uri, required: true, format: uri_regexp
-    param :me,           required: true, format: uri_regexp
+    param :client_id,    required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
+    param :me,           required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
 
     authorization_endpoint = EndpointDiscoveryService.new.get(params[:me], :authorization_endpoint)
     verification_response = HttpRequestService.new.post(authorization_endpoint, form: params.slice(:code, :client_id, :redirect_uri), headers: { accept: 'application/json' })
