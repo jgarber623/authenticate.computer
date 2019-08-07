@@ -1,4 +1,4 @@
-class AuthenticationsController < ApplicationController
+class AuthenticateComputer < Sinatra::Base
   # Authentication Request
   # https://indieauth.spec.indieweb.org/#authentication-request
   get '/auth', provides: :html do
@@ -12,7 +12,7 @@ class AuthenticationsController < ApplicationController
     # TODO: fetch the me URL for user information
     # TODO: fetch the client_id URL for app information
 
-    erb :'authentications/index', locals: { csrf_token: session[:csrf] }.merge(session.to_h.slice('me', 'client_id', 'redirect_uri', 'scope', 'response_type'))
+    erb :'authentications/index', locals: session.to_h.slice('csrf', 'me', 'client_id', 'redirect_uri', 'scope', 'response_type')
   rescue Sinatra::Param::InvalidParameterError => exception
     raise HttpBadRequest, exception
   end

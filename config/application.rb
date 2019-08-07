@@ -1,4 +1,18 @@
-class ApplicationController < Sinatra::Base
+app = File.expand_path('../app', __dir__)
+$LOAD_PATH.unshift(app) unless $LOAD_PATH.include?(app)
+
+require 'models/error'
+
+require 'services/endpoint_discovery_service'
+require 'services/http_request_service'
+
+require 'helpers/application_helper'
+
+require 'routes/authentications'
+require 'routes/pages'
+require 'routes/tokens'
+
+class AuthenticateComputer < Sinatra::Base
   register Sinatra::Partial
 
   configure :production do
@@ -8,7 +22,7 @@ class ApplicationController < Sinatra::Base
   end
 
   configure do
-    set :root, File.dirname(File.expand_path('..', __dir__))
+    set :root, File.dirname(File.expand_path('../app', __dir__))
 
     set :datastore, Redis.new
     set :server, :puma

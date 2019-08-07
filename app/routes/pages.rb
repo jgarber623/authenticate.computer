@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+class AuthenticateComputer < Sinatra::Base
   get '/', provides: :html do
     erb :'pages/homepage'
   end

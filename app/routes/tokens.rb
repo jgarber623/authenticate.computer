@@ -1,4 +1,4 @@
-class TokensController < ApplicationController
+class AuthenticateComputer < Sinatra::Base
   # Token Request
   # https://indieauth.spec.indieweb.org/#token-request
   post '/token', provides: :json do
