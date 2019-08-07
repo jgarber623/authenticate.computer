@@ -70,7 +70,8 @@ class AuthenticateComputer < Sinatra::Base
     settings.datastore.del(key) if value[:response_type] == 'id'
 
     data = { me: value[:me] }
-    data.merge!(scope: value[:scope]) if value[:response_type] == 'code'
+
+    data[:scope] = value[:scope] if value[:response_type] == 'code'
 
     json data
   rescue Sinatra::Param::InvalidParameterError => exception
