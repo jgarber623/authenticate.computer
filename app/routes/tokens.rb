@@ -8,12 +8,11 @@ class AuthenticateComputer < Sinatra::Base
     param :redirect_uri, required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
     param :me,           required: true, format: uri_regexp, transform: ->(url) { normalize_url(url) }
 
-    authorization_endpoint = EndpointDiscoveryService.new.get(params[:me], :authorization_endpoint)
-    verification_response = HttpRequestService.new.post(authorization_endpoint, form: params.slice(:code, :client_id, :redirect_uri), headers: { accept: 'application/json' })
+    authorization_code_verification = AuthorizationCodeVerification.new(params)
 
-    raise HttpBadRequest, 'Authorization code verification could not be completed' unless verification_response.status.success?
+    raise HttpBadRequest, 'Authorization code verification could not be completed' unless authorization_code_verification.success?
 
-    data = JSON.parse(verification_response.body, symbolize_names: true)
+    data = authorization_code_verification.to_json
 
     raise HttpBadRequest, %(The requested scope is invalid) if data[:scope].blank?
 

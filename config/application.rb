@@ -1,6 +1,7 @@
 app = File.expand_path('../app', __dir__)
 $LOAD_PATH.unshift(app) unless $LOAD_PATH.include?(app)
 
+require 'models/authorization_code_verification'
 require 'models/error'
 
 require 'services/endpoint_discovery_service'
