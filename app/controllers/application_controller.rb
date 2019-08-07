@@ -31,7 +31,7 @@ class ApplicationController < Sinatra::Base
     use Rack::Protection::StrictTransport, max_age: 31_536_000, include_subdomains: true, preload: true
 
     use OmniAuth::Builder do
-      provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'read:user'
+      provider :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'read:user'
     end
 
     OmniAuth.config.allowed_request_methods = [:post]
