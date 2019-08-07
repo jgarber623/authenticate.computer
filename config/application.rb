@@ -67,6 +67,8 @@ class AuthenticateComputer < Sinatra::Base
   end
 
   error 404 do
+    cache_control :public
+
     render_alert error: 'file_not_found', error_title: '404 File Not Found', error_description: %(The requested URL could not be found. Head on <a href="/" rel="home">back to the homepage</a>.)
   end
 
