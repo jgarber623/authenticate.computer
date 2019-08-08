@@ -41,7 +41,7 @@ http {
     server_name authenticate.computer;
     keepalive_timeout 5;
 
-    if ($scheme != 'https') {
+    if ($http_x_forwarded_proto != 'https') {
       return 301 https://authenticate.computer$request_uri;
     }
 
