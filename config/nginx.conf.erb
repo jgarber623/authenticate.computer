@@ -31,7 +31,14 @@ http {
 
   server {
     listen <%= ENV['PORT'] %>;
-    server_name _;
+    server_name authenticate-computer.herokuapp.com www.authenticate.computer;
+
+    return 301 $scheme://authenticate.computer$request_uri;
+  }
+
+  server {
+    listen <%= ENV['PORT'] %>;
+    server_name authenticate.computer;
     keepalive_timeout 5;
 
     root /app/public;

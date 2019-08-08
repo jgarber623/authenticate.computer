@@ -18,7 +18,7 @@ class AuthenticateComputer < Sinatra::Base
 
   configure :production do
     use Rack::SslEnforcer, redirect_html: false
-    use Rack::HostRedirect, %w[authenticate-computer.herokuapp.com www.authenticate.computer] => 'authenticate.computer'
+    # use Rack::HostRedirect, %w[authenticate-computer.herokuapp.com www.authenticate.computer] => 'authenticate.computer'
     use Rack::Deflater
   end
 
