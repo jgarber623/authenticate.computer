@@ -41,6 +41,10 @@ http {
     server_name authenticate.computer;
     keepalive_timeout 5;
 
+    if ($scheme != 'https') {
+      return 301 https://authenticate.computer$request_uri;
+    }
+
     root /app/public;
 
     location / {
