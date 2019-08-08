@@ -33,7 +33,7 @@ http {
     listen <%= ENV['PORT'] %>;
     server_name authenticate-computer.herokuapp.com www.authenticate.computer;
 
-    return 301 $scheme://authenticate.computer$request_uri;
+    return 301 https://authenticate.computer$request_uri;
   }
 
   server {
