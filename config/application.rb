@@ -34,8 +34,9 @@ class AuthenticateComputer < Sinatra::Base
 
     use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
-    use Rack::Protection, except: [:frame_options, :xss_header], use: [:cookie_tossing]
+    use Rack::Protection, except: [:frame_options, :xss_header]
     use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_METHOD'] == 'POST' && ['/auth', '/token'].include?(env['PATH_INFO']) }
+    use Rack::Protection::CookieTossing, session_key: ENV['COOKIE_NAME']
 
     use OmniAuth::Builder do
       provider :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'read:user'
