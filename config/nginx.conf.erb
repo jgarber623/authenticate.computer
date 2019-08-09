@@ -1,7 +1,15 @@
 daemon off;
 
+# Sets the worker threads to the number of CPU cores available in the system for
+# best performance. Should be > the number of CPU cores.
+# Maximum number of connections = worker_processes * worker_connections
+# Default: 1
+# https://nginx.org/en/docs/ngx_core_module.html#worker_processes
 worker_processes <%= ENV['NGINX_WORKERS'] || 4 %>;
 
+# Provides the configuration file context in which the directives that affect
+# connection processing are specified.
+# https://nginx.org/en/docs/ngx_core_module.html#events
 events {
   use epoll;
   accept_mutex on;
@@ -9,19 +17,62 @@ events {
 }
 
 http {
-  gzip on;
-  gzip_comp_level 5;
-  gzip_min_length 512;
+  # Hide Nginx version information.
+  include nginx/security/server_software_information.conf;
 
-  server_tokens off;
+  # Specify media (MIME) types for files.
+  include nginx/media_types/media_types.conf;
 
-  log_format l2met 'measure#nginx.service=$request_time request_id=$http_x_request_id';
+  # Set character encodings.
+  include nginx/media_types/character_encodings.conf;
+
+  log_format l2met "measure#nginx.service=$request_time request_id=$http_x_request_id";
   access_log <%= ENV['NGINX_ACCESS_LOG_PATH'] || 'logs/nginx/access.log' %> l2met;
   error_log <%= ENV['NGINX_ERROR_LOG_PATH'] || 'logs/nginx/error.log' %>;
 
-  include mime.types;
-  default_type application/octet-stream;
+  # Speed up file transfers by using `sendfile()` to copy directly between
+  # descriptors rather than using `read()`/`write()``.
+  # For performance reasons, on FreeBSD systems w/ ZFS this option should be
+  # disabled as ZFS's ARC caches frequently used files in RAM by default.
+  # Default: off
+  # https://nginx.org/en/docs/http/ngx_http_core_module.html#sendfile
   sendfile on;
+
+  # Don't send out partial frames; this increases throughput since TCP frames
+  # are filled up before being sent out.
+  # Default: off
+  # https://nginx.org/en/docs/http/ngx_http_core_module.html#tcp_nopush
+  tcp_nopush on;
+
+  # Enable gzip compression.
+  include nginx/web_performance/compression.conf;
+
+  # Specify file cache expiration.
+  include nginx/web_performance/cache_expiration.conf;
+
+  # Add Content-Security-Policy for HTML documents.
+  # nginx/security/content-security-policy.conf
+  map $sent_http_content_type $content_security_policy {
+    ~*text/html "default-src 'self'; base-uri 'none'; font-src 'self' https://fonts.gstatic.com; form-action 'self'; frame-ancestors 'none'; style-src 'self' https://fonts.googleapis.com; upgrade-insecure-requests";
+  }
+
+  # Add Referrer-Policy for HTML documents.
+  # nginx/security/referrer-policy.conf.conf
+  map $sent_http_content_type $referrer_policy {
+    ~*text/html "no-referrer-when-downgrade";
+  }
+
+  # Add X-Frame-Options for HTML documents.
+  # nginx/security/x-frame-options.conf
+  map $sent_http_content_type $x_frame_options {
+    ~*text/html DENY;
+  }
+
+  # Add X-XSS-Protection for HTML documents.
+  # nginx/security/x-xss-protection.conf
+  map $sent_http_content_type $x_xss_protection {
+    ~*text/html "1; mode=block";
+  }
 
   client_body_timeout 5;
 
@@ -41,11 +92,20 @@ http {
     server_name authenticate.computer;
     keepalive_timeout 5;
 
-    if ($http_x_forwarded_proto != 'https') {
+    if ($http_x_forwarded_proto != "https") {
       return 301 https://authenticate.computer$request_uri;
     }
 
     root /app/public;
+
+    include nginx/security/content-security-policy.conf
+    include nginx/security/referrer-policy.conf;
+    include nginx/security/strict-transport-security.conf;
+    include nginx/security/x-content-type-options.conf;
+    include nginx/security/x-frame-options.conf;
+    include nginx/security/x-xss-protection.conf;
+
+    include nginx/location/security_file_access.conf;
 
     location / {
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
