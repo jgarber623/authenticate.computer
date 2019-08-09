@@ -16,10 +16,6 @@ require 'routes/tokens'
 class AuthenticateComputer < Sinatra::Base
   register Sinatra::Partial
 
-  configure :production do
-    use Rack::Deflater
-  end
-
   configure do
     set :root, File.dirname(File.expand_path('../app', __dir__))
 
@@ -38,10 +34,8 @@ class AuthenticateComputer < Sinatra::Base
 
     use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
-    use Rack::Protection, use: [:cookie_tossing]
+    use Rack::Protection, except: [:frame_options, :xss_header], use: [:cookie_tossing]
     use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_METHOD'] == 'POST' && ['/auth', '/token'].include?(env['PATH_INFO']) }
-    use Rack::Protection::ContentSecurityPolicy, default_src: "'self'", style_src: "'self' https://fonts.googleapis.com", font_src: "'self' https://fonts.gstatic.com", frame_ancestors: "'none'"
-    use Rack::Protection::StrictTransport, max_age: 31_536_000, include_subdomains: true, preload: true
 
     use OmniAuth::Builder do
       provider :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'read:user'
