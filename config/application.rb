@@ -24,8 +24,6 @@ class AuthenticateComputer < Sinatra::Base
 
     set :raise_sinatra_param_exceptions, true
 
-    set :protection, except: [:frame_options, :xss_header]
-
     set :partial_template_engine, :erb
     set :partial_underscores, true
     set :views, 'app/views'
@@ -34,10 +32,11 @@ class AuthenticateComputer < Sinatra::Base
     set :assets_paths, %w[app/assets/images app/assets/stylesheets]
     set :assets_precompile, %w[*.png application.css]
 
-    use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
-
+    use Rack::Protection, except: [:frame_options, :xss_header]
     use Rack::Protection::AuthenticityToken, allow_if: ->(env) { env['REQUEST_METHOD'] == 'POST' && ['/auth', '/token'].include?(env['PATH_INFO']) }
     use Rack::Protection::CookieTossing, session_key: ENV['COOKIE_NAME']
+
+    use Rack::Session::Cookie, expire_after: 60, key: ENV['COOKIE_NAME'], secret: ENV['COOKIE_SECRET']
 
     use OmniAuth::Builder do
       provider :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'read:user'
