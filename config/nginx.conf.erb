@@ -116,10 +116,6 @@ http {
 
     location ~* /assets/ {
       access_log off;
-
-      gzip_static on;
-
-      add_header Cache-Control immutable;
     }
 
     location / {
