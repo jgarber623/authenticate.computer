@@ -105,6 +105,13 @@ http {
     include nginx/security/x-frame-options.conf;
     include nginx/security/x-xss-protection.conf;
 
+    location @app_proxy {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_redirect off;
+      proxy_pass http://app_server;
+    }
+
     include nginx/location/security_file_access.conf;
 
     location ~* /assets/ {
@@ -116,10 +123,7 @@ http {
     }
 
     location / {
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header Host $http_host;
-      proxy_redirect off;
-      proxy_pass http://app_server;
+      try_files $uri $uri/ @app_proxy;
     }
   }
 }
