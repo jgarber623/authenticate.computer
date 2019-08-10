@@ -53,7 +53,7 @@ http {
   # Add Content-Security-Policy for HTML documents.
   # nginx/security/content-security-policy.conf
   map $sent_http_content_type $content_security_policy {
-    ~*text/html "default-src 'self'; base-uri 'none'; font-src 'self' https://fonts.gstatic.com; form-action 'self'; frame-ancestors 'none'; style-src 'self' https://fonts.googleapis.com; upgrade-insecure-requests";
+    ~*text/html "default-src 'self'; base-uri 'none'; font-src 'self' https://fonts.gstatic.com; form-action 'self' https://github.com; frame-ancestors 'none'; style-src 'self' https://fonts.googleapis.com; upgrade-insecure-requests";
   }
 
   # Add Referrer-Policy for HTML documents.
