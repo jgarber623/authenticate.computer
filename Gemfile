@@ -2,7 +2,7 @@ ruby '2.6.3'
 
 source 'https://rubygems.org'
 
-gem 'activesupport', '~> 5.2', require: 'active_support/core_ext/object/blank'
+gem 'activesupport', '~> 6.0', require: 'active_support/core_ext/object/blank'
 gem 'addressable', '~> 2.6', require: 'addressable/uri'
 gem 'breakpoint', '~> 2.7'
 gem 'http', '~> 5.0.0.pre'
@@ -18,7 +18,7 @@ gem 'sass-globbing', '~> 1.1'
 gem 'sinatra', '~> 2.0'
 gem 'sinatra-asset-pipeline', '~> 2.2', require: 'sinatra/asset_pipeline'
 gem 'sinatra-contrib', '~> 2.0'
-gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.1.1'
+gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.2.0'
 gem 'sinatra-partial', '~> 1.0'
 
 group :development, :test do
