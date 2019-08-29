@@ -257,7 +257,7 @@ DEPENDENCIES
   sinatra-contrib (~> 2.0)
   sinatra-param!
   sinatra-partial (~> 1.0)
-  webmock (~> 3.6)
+  webmock (~> 3.7)
 
 RUBY VERSION
    ruby 2.6.3p62
