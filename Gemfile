@@ -3,7 +3,7 @@ ruby '2.6.4'
 source 'https://rubygems.org'
 
 gem 'activesupport', '~> 6.0', require: 'active_support/core_ext/object/blank'
-gem 'addressable', '~> 2.6', require: 'addressable/uri'
+gem 'addressable', '~> 2.7', require: 'addressable/uri'
 gem 'breakpoint', '~> 2.7'
 gem 'http', '~> 5.0.0.pre'
 gem 'indieweb-endpoints', '~> 1.0'
