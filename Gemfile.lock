@@ -242,7 +242,7 @@ DEPENDENCIES
   rack-test (~> 1.1)
   rake (~> 12.3)
   redis (~> 4.1)
-  reek (~> 5.4)
+  reek (~> 5.5)
   rspec (~> 3.9)
   rubocop (~> 0.76.0)
   rubocop-performance (~> 1.5)
