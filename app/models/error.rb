@@ -1,11 +1,11 @@
-# rubocop:disable Layout/AlignHash
+# rubocop:disable Layout/HashAlignment
 HTTP_STATUS_CODES = {
   HttpBadRequest:          400,
   HttpNotAcceptable:       406,
   HttpLoginTimeout:        440,
   HttpInternalServerError: 500
 }.freeze
-# rubocop:enable Layout/AlignHash
+# rubocop:enable Layout/HashAlignment
 
 HTTP_STATUS_CODES.each do |status, code|
   klass = Class.new(StandardError) do
