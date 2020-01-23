@@ -6,7 +6,7 @@ gem 'activesupport', '~> 6.0', require: 'active_support/core_ext/object/blank'
 gem 'addressable', '~> 2.7', require: 'addressable/uri'
 gem 'breakpoint', '~> 2.7'
 gem 'http', '~> 5.0.0.pre'
-gem 'indieweb-endpoints', '~> 1.0'
+gem 'indieweb-endpoints', '~> 1.1'
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-github', '~> 1.3'
 gem 'puma', '~> 4.2'
@@ -25,9 +25,9 @@ group :development, :test do
   gem 'dotenv', '~> 2.7', require: 'dotenv/load'
   gem 'rack-test', '~> 1.1', require: false
   gem 'rake', '~> 12.3'
-  gem 'reek', '~> 5.5', require: false
+  gem 'reek', '~> 5.6', require: false
   gem 'rspec', '~> 3.9'
-  gem 'rubocop', '~> 0.78.0', require: false
+  gem 'rubocop', '~> 0.79.0', require: false
   gem 'rubocop-performance', '~> 1.5', require: false
   gem 'rubocop-rspec', '~> 1.37', require: false
   gem 'webmock', '~> 3.7', require: false
