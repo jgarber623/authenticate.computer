@@ -6,7 +6,7 @@ ENV['RACK_ENV'] = 'test'
 
 OUTER_APP = Rack::Builder.parse_file('config.ru').first
 
-Dir[File.expand_path('../spec/support/**/*.rb', __dir__)].each { |f| require f }
+Dir[File.expand_path('../spec/support/**/*.rb', __dir__)].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
