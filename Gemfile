@@ -25,7 +25,7 @@ group :development, :test do
   gem 'dotenv', '~> 2.7', require: 'dotenv/load'
   gem 'rack-test', '~> 1.1', require: false
   gem 'rake', '~> 12.3'
-  gem 'reek', '~> 5.6', require: false
+  gem 'reek', '~> 6.0', require: false
   gem 'rspec', '~> 3.9'
   gem 'rubocop', '~> 0.80.1', require: false
   gem 'rubocop-performance', '~> 1.5', require: false
