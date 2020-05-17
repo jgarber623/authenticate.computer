@@ -1,4 +1,4 @@
-describe AuthenticateComputer, 'GET /foo' do
+RSpec.describe AuthenticateComputer, 'GET /foo' do
   context 'when requesting text/html' do
     it 'renders the 404 view' do
       header 'Accept', 'text/html'

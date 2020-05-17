@@ -1,4 +1,4 @@
-describe AuthenticateComputer, 'GET /token' do
+RSpec.describe AuthenticateComputer, 'GET /token' do
   let(:error) { 'invalid_request' }
 
   let(:error_hash) do

@@ -13,6 +13,8 @@ RSpec.configure do |config|
   config.include RSpec::OmniAuthHelper
   config.include RSpec::RedisHelper
 
+  config.disable_monkey_patching!
+
   def app
     OUTER_APP
   end

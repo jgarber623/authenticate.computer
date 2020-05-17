@@ -1,4 +1,4 @@
-describe AuthenticateComputer, 'POST /auth', omniauth: true, redis: true do
+RSpec.describe AuthenticateComputer, 'POST /auth', omniauth: true, redis: true do
   let(:code) { SecureRandom.hex(32) }
   let(:me) { 'https://me.example.com/' }
   let(:client_id) { 'https://client_id.example.com/' }

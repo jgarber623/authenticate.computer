@@ -1,4 +1,4 @@
-describe AuthenticateComputer, 'when performing an Authorization Request', omniauth: true, redis: true do
+RSpec.describe AuthenticateComputer, 'when performing an Authorization Request', omniauth: true, redis: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
 
   let(:me) { 'https://me.example.com/' }

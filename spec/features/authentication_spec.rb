@@ -1,4 +1,4 @@
-describe AuthenticateComputer, 'when performing an Authentication Request', omniauth: true do
+RSpec.describe AuthenticateComputer, 'when performing an Authentication Request', omniauth: true do
   let(:authenticity_token) { SecureRandom.base64(32) }
 
   let(:me) { 'https://sixtwothree.org/' }

@@ -1,4 +1,4 @@
-describe AuthenticateComputer, 'GET /' do
+RSpec.describe AuthenticateComputer, 'GET /' do
   it 'renders the homepage view' do
     get '/'
 
