@@ -33,7 +33,7 @@ class AuthenticateComputer < Sinatra::Base
     token = request.env['HTTP_AUTHORIZATION']
 
     raise HttpBadRequest, 'The request is missing a valid HTTP Authorization header' unless token.present? && token.sub!(/^Bearer\s/, '')
-    raise HttpBadRequest, 'Access token verification could not be completed' unless settings.datastore.exists(token)
+    raise HttpBadRequest, 'Access token verification could not be completed' unless settings.datastore.exists?(token)
 
     # Expire token after 30 days
     settings.datastore.expire(token, 2_592_000)

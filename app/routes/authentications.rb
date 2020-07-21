@@ -64,7 +64,7 @@ class AuthenticateComputer < Sinatra::Base
 
     key = key_from(code, client_id, redirect_uri)
 
-    raise HttpBadRequest, 'Authorization code verification could not be completed' unless settings.datastore.exists(key)
+    raise HttpBadRequest, 'Authorization code verification could not be completed' unless settings.datastore.exists?(key)
 
     value = JSON.parse(settings.datastore.get(key), symbolize_names: true)
 
