@@ -24,6 +24,9 @@ RSpec/FilePath:
 RSpec/MultipleExpectations:
   Max: 2
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
