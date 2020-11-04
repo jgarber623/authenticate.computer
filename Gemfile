@@ -26,8 +26,8 @@ group :development, :test do
   gem 'rack-test', '~> 1.1', require: false
   gem 'rake', '~> 12.3'
   gem 'reek', '~> 6.0', require: false
-  gem 'rspec', '~> 3.9'
-  gem 'rubocop', '~> 0.93.0', require: false
+  gem 'rspec', '~> 3.10'
+  gem 'rubocop', '~> 0.93.1', require: false
   gem 'rubocop-performance', '~> 1.8', require: false
   gem 'rubocop-rspec', '~> 1.44', require: false
   gem 'webmock', '~> 3.8', require: false
@@ -38,6 +38,6 @@ group :development do
 end
 
 group :test do
-  gem 'simplecov', '~> 0.19.0', require: false
+  gem 'simplecov', '~> 0.19.1', require: false
   gem 'simplecov-console', '~> 0.7.2', require: false
 end
