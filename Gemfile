@@ -30,7 +30,7 @@ group :development, :test do
   gem 'rubocop', '~> 1.2', require: false
   gem 'rubocop-performance', '~> 1.8', require: false
   gem 'rubocop-rspec', '~> 2.0', require: false
-  gem 'webmock', '~> 3.8', require: false
+  gem 'webmock', '~> 3.9', require: false
 end
 
 group :development do
@@ -39,5 +39,5 @@ end
 
 group :test do
   gem 'simplecov', '~> 0.19.1', require: false
-  gem 'simplecov-console', '~> 0.7.2', require: false
+  gem 'simplecov-console', '~> 0.8.0', require: false
 end
