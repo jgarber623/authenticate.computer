@@ -9,7 +9,7 @@ gem 'http', '~> 4.4'
 gem 'indieweb-endpoints', '~> 5.0'
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-github', '~> 1.3'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.1'
 gem 'rack', '~> 2.2'
 gem 'rack-protection', '~> 2.0'
 gem 'redis', '~> 4.2'
@@ -27,8 +27,9 @@ group :development, :test do
   gem 'rake', '~> 12.3'
   gem 'reek', '~> 6.0', require: false
   gem 'rspec', '~> 3.10'
-  gem 'rubocop', '~> 1.4', require: false
+  gem 'rubocop', '~> 1.5', require: false
   gem 'rubocop-performance', '~> 1.9', require: false
+  gem 'rubocop-rake', '~> 0.5.1', require: false
   gem 'rubocop-rspec', '~> 2.0', require: false
   gem 'webmock', '~> 3.10', require: false
 end
@@ -38,6 +39,6 @@ group :development do
 end
 
 group :test do
-  gem 'simplecov', '~> 0.19.1', require: false
+  gem 'simplecov', '~> 0.20.0', require: false
   gem 'simplecov-console', '~> 0.8.0', require: false
 end
