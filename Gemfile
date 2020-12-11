@@ -2,7 +2,7 @@ ruby '2.6.6'
 
 source 'https://rubygems.org'
 
-gem 'activesupport', '~> 6.0', require: 'active_support/core_ext/object/blank'
+gem 'activesupport', '~> 6.1', require: 'active_support/core_ext/object/blank'
 gem 'addressable', '~> 2.7', require: 'addressable/uri'
 gem 'breakpoint', '~> 2.7'
 gem 'http', '~> 4.4'
@@ -27,7 +27,7 @@ group :development, :test do
   gem 'rake', '~> 12.3'
   gem 'reek', '~> 6.0', require: false
   gem 'rspec', '~> 3.10'
-  gem 'rubocop', '~> 1.5', require: false
+  gem 'rubocop', '~> 1.6', require: false
   gem 'rubocop-performance', '~> 1.9', require: false
   gem 'rubocop-rake', '~> 0.5.1', require: false
   gem 'rubocop-rspec', '~> 2.0', require: false
