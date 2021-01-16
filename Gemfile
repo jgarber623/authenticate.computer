@@ -18,7 +18,7 @@ gem 'sass-globbing', '~> 1.1'
 gem 'sinatra', '~> 2.0'
 gem 'sinatra-asset-pipeline', '~> 2.2', require: 'sinatra/asset_pipeline'
 gem 'sinatra-contrib', '~> 2.0'
-gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.2.0'
+gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.4.0'
 gem 'sinatra-partial', '~> 1.0'
 
 group :development, :test do
