@@ -6,7 +6,7 @@ RSpec.describe AuthenticateComputer, 'GET /auth' do
   let(:scope) { 'create+update+delete' }
 
   before do
-    stub_request(:get, client_id).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{redirect_uri}>; rel="redirect_uri") })
+    stub_request(:get, client_id).to_return(headers: { 'Content-Type': 'text/html', Link: %(<#{redirect_uri}>; rel="redirect_uri") })
   end
 
   context 'when validating params' do

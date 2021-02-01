@@ -164,7 +164,7 @@ RSpec.describe AuthenticateComputer, 'POST /token', redis: true do
       let(:error_description) { '500 Internal Server Error: There was a problem fulfilling the request. Please try again later.' }
 
       before do
-        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
+        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', Link: %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
         stub_request(:post, authorization_endpoint).to_timeout
       end
 
@@ -181,7 +181,7 @@ RSpec.describe AuthenticateComputer, 'POST /token', redis: true do
       let(:error_description) { '400 Bad Request: Authorization code verification could not be completed. Please try again.' }
 
       before do
-        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
+        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', Link: %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
         stub_request(:post, authorization_endpoint).to_return(body: error_hash.to_json, status: 400)
       end
 
@@ -198,7 +198,7 @@ RSpec.describe AuthenticateComputer, 'POST /token', redis: true do
       let(:error_description) { '400 Bad Request: The requested scope is invalid. Please try again.' }
 
       before do
-        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
+        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', Link: %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
         stub_request(:post, authorization_endpoint).to_return(body: { me: me, scope: '' }.to_json)
       end
 
@@ -212,7 +212,7 @@ RSpec.describe AuthenticateComputer, 'POST /token', redis: true do
 
     context 'when scope is valid' do
       before do
-        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
+        stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', Link: %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
         stub_request(:post, authorization_endpoint).to_return(body: { me: me, scope: 'create update delete' }.to_json)
 
         allow(SecureRandom).to receive(:hex).and_return(code)

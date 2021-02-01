@@ -41,7 +41,7 @@ RSpec.describe AuthenticateComputer, 'when performing an Authorization Request',
 
     allow(SecureRandom).to receive(:hex).and_return(code)
 
-    stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', 'Link': %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
+    stub_request(:get, me).to_return(headers: { 'Content-Type': 'text/html', Link: %(<#{authorization_endpoint}>; rel="authorization_endpoint") })
     stub_request(:post, authorization_endpoint).to_return(body: { me: me, scope: scope }.to_json)
 
     get '/auth', parameters_hash
