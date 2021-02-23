@@ -22,6 +22,7 @@ gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v3.4.0'
 gem 'sinatra-partial', '~> 1.0'
 
 group :development, :test do
+  gem 'bundler-audit'
   gem 'dotenv', require: 'dotenv/load'
   gem 'rack-test', require: false
   gem 'rake'
