@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'activesupport', '~> 6.1', require: 'active_support/core_ext/object/blank'
 gem 'addressable', '~> 2.7', require: 'addressable/uri'
+gem 'barnes', '~> 0.0.9'
 gem 'breakpoint', '~> 2.7'
 gem 'http', '~> 4.4'
 gem 'indieweb-endpoints', '~> 5.0'
