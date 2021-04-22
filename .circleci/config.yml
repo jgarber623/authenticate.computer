@@ -7,7 +7,7 @@ jobs:
   test:
     docker:
       - image: cimg/ruby:2.6.7
-      - image: circleci/redis:4.0.14-alpine
+      - image: circleci/redis:6.0.12-alpine
     steps:
       - checkout
       - ruby/install-deps
