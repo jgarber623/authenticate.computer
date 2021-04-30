@@ -1,0 +1,19 @@
+services:
+  app:
+    image: authenticate.computer
+    build:
+      context: .
+    entrypoint: tail -f /dev/null
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src/app
+        consistency: delegated
+      - type: volume
+        target: /usr/src/dependencies
+  db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
