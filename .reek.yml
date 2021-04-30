@@ -1,9 +1,0 @@
-detectors:
-  IrresponsibleModule:
-    enabled: false
-  UtilityFunction:
-    exclude:
-      - ApplicationHelper
-
-exclude_paths:
-  - vendor/
