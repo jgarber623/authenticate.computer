@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+
+_args=("$@")
+
+container_name=${_args[0]}
+
+unset "_args[0]"
+
+container_id=$(docker ps --filter ancestor=${container_name} --format {{.ID}})
+
+cmd=${_args[@]}
+
+if [ -z $cmd ]; then
+  echo "[ exec ] 🚨 No command specified! Try running '$0 $container_name whoami'."
+  exit 1
+fi
+
+if [ -z $container_id ]; then
+  echo "[ exec ] 🚨 Couldn't find a container with name = $container_name. Have you run bin/start in another Terminal?"
+  exit 1
+else
+  echo "[ exec ] 🏃🏻‍♂️ Running '$cmd' inside container with ID = $container_id..."
+  docker exec -it $container_id $cmd
+fi
