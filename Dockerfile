@@ -9,6 +9,7 @@ RUN apk add --no-cache \
       make \
       nodejs \
       postgresql-client \
+      postgresql-dev \
       yarn
 
 # Configure RubyGems and install Bundler and Rails
