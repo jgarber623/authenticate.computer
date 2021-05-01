@@ -32,7 +32,16 @@ module AuthenticateComputer
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # Use SQL-based database structure file
+    config.active_record.schema_format = :sql
+
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Disable per-resource generators
+    config.generators do |g|
+      g.helper false
+      g.stylesheets false
+    end
   end
 end
