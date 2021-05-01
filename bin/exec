@@ -12,7 +12,7 @@ container_id=$(docker ps --filter ancestor=${container_name} --format {{.ID}})
 
 cmd=${_args[@]}
 
-if [ -z $cmd ]; then
+if [ -z "$cmd" ]; then
   echo "[ exec ] 🚨 No command specified! Try running '$0 $container_name whoami'."
   exit 1
 fi
