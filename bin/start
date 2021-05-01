@@ -2,5 +2,5 @@
 
 set -e
 
-echo "[ start ] 🐳 Running ./docker-compose.yml..."
+echo "[ bin/start ] 🐳 Running ./docker-compose.yml..."
 docker compose up $@
