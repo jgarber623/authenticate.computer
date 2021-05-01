@@ -14,10 +14,11 @@ gem 'tzinfo-data', '~> 1.2021'
 gem 'webpacker', '~> 5.3'
 
 group :development, :test do
-  gem 'pry-byebug', '~> 3.9'
+  gem 'dotenv-rails'
+  gem 'pry-byebug'
 end
 
 group :development do
-  gem 'rack-mini-profiler', '~> 2.3'
-  gem 'web-console', '~> 4.1'
+  gem 'rack-mini-profiler'
+  gem 'web-console'
 end
