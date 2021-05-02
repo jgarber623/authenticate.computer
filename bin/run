@@ -5,5 +5,5 @@ set -e
 echo "[ bin/run ] ♻️  Deleting development log..."
 rm -f ./log/development.log
 
-echo "[ bin/run ] Starting Foreman..."
+echo "[ bin/run ] 👷🏻‍♂️ Starting Foreman..."
 bin/foreman start -f Procfile.dev -p 3000

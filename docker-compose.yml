@@ -1,5 +1,5 @@
 services:
-  app:
+  web:
     image: authenticate.computer
     build:
       context: .
