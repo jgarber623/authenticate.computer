@@ -74,6 +74,7 @@ GEM
       railties (>= 3.2)
     erubi (1.10.0)
     ffi (1.15.0)
+    foreman (0.87.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.10)
@@ -187,6 +188,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (~> 1.7)
   dotenv-rails
+  foreman (~> 0.87.2)
   jbuilder (~> 2.11)
   lograge (~> 0.11.2)
   pg (~> 1.2)
