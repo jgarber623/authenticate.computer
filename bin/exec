@@ -2,18 +2,13 @@
 
 set -e
 
-_args=("$@")
+cmd=$*
 
-container_name=${_args[0]}
-
-unset "_args[0]"
-
-container_id=$(docker ps --filter ancestor=${container_name} --format {{.ID}})
-
-cmd=${_args[@]}
+container_name="authenticate.computer"
+container_id=$(docker ps --no-trunc --filter ancestor=${container_name} --format {{.ID}})
 
 if [ -z "$cmd" ]; then
-  echo "[ bin/exec ] 🚨 No command specified! Try running '$0 $container_name whoami'."
+  echo "[ bin/exec ] 🚨 No command specified! Try running '$0 whoami'."
   exit 1
 fi
 
