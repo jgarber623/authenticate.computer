@@ -8,6 +8,7 @@ gem 'bootsnap', '~> 1.7', require: false
 gem 'pg', '~> 1.2'
 gem 'puma', '~> 5.2'
 gem 'jbuilder', '~> 2.11'
+gem 'lograge', '~> 0.11.2'
 gem 'rails', '~> 6.1'
 gem 'sassc-rails', '~> 2.1'
 gem 'tzinfo-data', '~> 1.2021'
