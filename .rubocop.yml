@@ -1,0 +1,14 @@
+require:
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+
+Layout/LineLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
