@@ -6,7 +6,7 @@ ruby '2.7.3'
 
 gem 'bootsnap', '~> 1.7', require: false
 gem 'pg', '~> 1.2'
-gem 'puma', '~> 5.2'
+gem 'puma', '~> 5.3'
 gem 'foreman', '~> 0.87.2'
 gem 'jbuilder', '~> 2.11'
 gem 'lograge', '~> 0.11.2'
@@ -16,8 +16,11 @@ gem 'tzinfo-data', '~> 1.2021'
 gem 'webpacker', '~> 5.3'
 
 group :development, :test do
+  gem 'bundler-audit'
   gem 'dotenv-rails'
   gem 'pry-byebug'
+  gem 'rubocop'
+  gem 'rubocop-rails'
 end
 
 group :development do
