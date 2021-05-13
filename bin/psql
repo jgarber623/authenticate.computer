@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+PGPASSWORD=postgres psql -U postgres --host db --port 5432 authenticate_computer_development
