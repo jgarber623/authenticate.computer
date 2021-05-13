@@ -5,7 +5,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.3'
 
 gem 'bootsnap', '~> 1.7', require: false
-gem 'foreman', '~> 0.87.2'
 gem 'jbuilder', '~> 2.11'
 gem 'lograge', '~> 0.11.2'
 gem 'pg', '~> 1.2'
@@ -18,7 +17,11 @@ gem 'webpacker', '~> 5.3'
 group :development, :test do
   gem 'bundler-audit'
   gem 'dotenv-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'foreman'
   gem 'pry-byebug'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
