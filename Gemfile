@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.3'
 
 gem 'bootsnap', '~> 1.7', require: false
+gem 'brakeman'
 gem 'jbuilder', '~> 2.11'
 gem 'lograge', '~> 0.11.2'
 gem 'pg', '~> 1.2'
