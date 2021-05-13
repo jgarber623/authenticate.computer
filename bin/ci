@@ -3,7 +3,7 @@
 set -e
 
 echo '[ bin/ci ] 🧪 Running test suite...'
-bundle exec rspec
+bundle exec rspec --format progress --format RspecJunitFormatter --out ./tmp/rspec/results.xml
 
 echo '[ bin/ci ] 🚨 Analyzing Ruby dependencies for security vulnerabilities...'
 bundle exec bundle audit check --update

@@ -21,6 +21,7 @@ group :development, :test do
   gem 'faker'
   gem 'foreman'
   gem 'pry-byebug'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
