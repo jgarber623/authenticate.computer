@@ -16,6 +16,6 @@ if [ -z $container_id ]; then
   echo "[ bin/exec ] 🚨 Couldn't find a container with name = $container_name. Have you run bin/start in another Terminal?"
   exit 1
 else
-  echo "[ bin/exec ] 🏃🏻‍♂️ Running '$cmd' inside container with ID = $container_id..."
+  echo "[ bin/exec ] 🏃🏻‍♂️ Executing [\"$cmd\"] inside container with ID = $container_id..."
   docker exec -it $container_id $cmd
 fi
