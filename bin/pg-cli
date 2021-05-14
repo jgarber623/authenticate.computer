@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+PGPASSWORD=postgres psql -U postgres -h db -p 5432 authenticate_computer_development
