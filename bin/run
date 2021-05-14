@@ -2,7 +2,7 @@
 
 set -e
 
-echo "[ bin/run ] 🗑 Deleting development log..."
+echo "[ bin/run ] 🔥 Deleting development log..."
 rm -f ./log/development.log
 
 echo "[ bin/run ] 👷🏻‍♂️ Starting Foreman..."
