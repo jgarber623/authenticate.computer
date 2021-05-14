@@ -5,11 +5,14 @@ set -e
 echo '[ bin/ci ] 🧪 Running test suite...'
 bundle exec rspec --format progress --format RspecJunitFormatter --out ./tmp/rspec/results.xml
 
-echo '[ bin/ci ] 🚨 Analyzing application code for security vulnerabilities...'
+echo '[ bin/ci ] 🔐 Analyzing application code for security vulnerabilities...'
 bundle exec brakeman --no-pager --run-all-checks --quiet
 
-echo '[ bin/ci ] 🚨 Analyzing Ruby dependencies for security vulnerabilities...'
+echo '[ bin/ci ] 🔐 Analyzing Ruby dependencies for security vulnerabilities...'
 bundle exec bundle audit check --update
+
+# echo '[ bin/ci ] 🔐 Analyzing Node.js dependencies for security vulnerabilities...'
+# yarn audit
 
 set +e
 
