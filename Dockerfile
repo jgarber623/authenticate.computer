@@ -2,9 +2,10 @@ FROM ruby:2.7.3-alpine
 
 ARG BUNDLER_VERSION="2.2.16"
 ARG RAILS_VERSION=">= 6.1"
+ARG REDIS_VERSION="6.0.12"
 
 # Install system dependencies
-RUN apk add --no-cache \
+RUN apk add --update --no-cache \
       g++ \
       git \
       make \
@@ -12,7 +13,15 @@ RUN apk add --no-cache \
       postgresql-client \
       postgresql-dev \
       tzdata \
-      yarn
+      yarn && \
+    rm -rf /var/cache/apk/*
+
+# Install redis-cli the hard way
+RUN cd /tmp && \
+    wget -O redis.tar.gz "https://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz" && \
+    tar -xvzf redis.tar.gz && \
+    make -C "redis-${REDIS_VERSION}" install redis-cli /usr/local/bin && \
+    rm -rf redis.tar.gz "redis-${REDIS_VERSION}"
 
 # Configure Git to avoid "hints" when using bundler-audit
 RUN git config --global pull.rebase true

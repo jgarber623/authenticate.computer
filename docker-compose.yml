@@ -17,3 +17,5 @@ services:
     image: postgres:13-alpine
     environment:
       POSTGRES_PASSWORD: postgres
+  redis:
+    image: redis:6.0.12-alpine
