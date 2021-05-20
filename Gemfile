@@ -14,7 +14,7 @@ gem 'rails', '~> 6.1'
 gem 'redis', '~> 4.2'
 gem 'sassc-rails', '~> 2.1'
 gem 'tzinfo-data', '~> 1.2021'
-gem 'webpacker', '~> 5.3'
+gem 'webpacker', '~> 5.4'
 
 group :development, :test do
   gem 'bundler-audit'
@@ -23,7 +23,7 @@ group :development, :test do
   gem 'faker'
   gem 'foreman'
   gem 'pry-byebug'
-  gem 'rspec_junit_formatter'
+  gem 'rspec_junit_formatter', require: false
   gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
