@@ -6,3 +6,13 @@ updates:
       interval: "weekly"
     assignees:
       - "jgarber623"
+    commit-message:
+      prefix: "🤖 💎"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "jgarber623"
+    commit-message:
+      prefix: "🤖 📦"
