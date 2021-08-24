@@ -7,11 +7,14 @@ ruby '2.7.3'
 gem 'bootsnap', '~> 1.7', require: false
 gem 'brakeman'
 gem 'jbuilder', '~> 2.11'
+gem 'http', '~> 5.0'
+gem 'indieweb-endpoints', '~> 6.1'
 gem 'lograge', '~> 0.11.2'
+gem 'micromicro', '~> 1.1'
 gem 'pg', '~> 1.2'
-gem 'puma', '~> 5.3'
+gem 'puma', '~> 5.4'
 gem 'rails', '~> 6.1'
-gem 'redis', '~> 4.2'
+gem 'redis', '~> 4.4'
 gem 'sassc-rails', '~> 2.1'
 gem 'tzinfo-data', '~> 1.2021'
 gem 'webpacker', '~> 5.4'
@@ -29,14 +32,18 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'shoulda-matchers'
 end
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'pry-rails'
   gem 'rack-mini-profiler'
-  gem 'web-console'
 end
 
 group :test do
   gem 'simplecov', require: false
   gem 'simplecov-console', require: false
+  gem 'webmock'
 end
