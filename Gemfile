@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.3'
+ruby '2.7.4'
 
 gem 'bootsnap', '~> 1.7', require: false
 gem 'brakeman'
-gem 'jbuilder', '~> 2.11'
 gem 'http', '~> 5.0'
+gem 'jbuilder', '~> 2.11'
 gem 'indieweb-endpoints', '~> 6.1'
 gem 'lograge', '~> 0.11.2'
 gem 'micromicro', '~> 1.1'
