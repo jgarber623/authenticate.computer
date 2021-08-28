@@ -76,7 +76,9 @@ Rails.application.configure do
 
   # Enable better_errors REPL when running within a Docker container
   # https://stackoverflow.com/a/55716426
+  # rubocop:disable Style/IfUnlessModifier
   if File.read('/proc/1/cgroup').include?('docker')
     BetterErrors::Middleware.allow_ip! `/sbin/ip route | awk '/default/ { print $3 }'`.strip
   end
+  # rubocop:enable Style/IfUnlessModifier
 end
