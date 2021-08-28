@@ -73,4 +73,10 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  # Enable better_errors REPL when running within a Docker container
+  # https://stackoverflow.com/a/55716426
+  if File.read('/proc/1/cgroup').include?('docker')
+    BetterErrors::Middleware.allow_ip! `/sbin/ip route | awk '/default/ { print $3 }'`.strip
+  end
 end
