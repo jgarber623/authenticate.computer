@@ -6,7 +6,7 @@ orbs:
 jobs:
   test:
     docker:
-      - image: cimg/ruby:2.6.7
+      - image: cimg/ruby:2.6.8
       - image: circleci/redis:6.0.12-alpine
     steps:
       - checkout
