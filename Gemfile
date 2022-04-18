@@ -8,7 +8,7 @@ gem 'barnes', '~> 0.0.9', require: false
 gem 'breakpoint', '~> 2.7'
 gem 'http', '~> 4.4'
 gem 'indieweb-endpoints', '~> 5.0'
-gem 'omniauth', '~> 2.0'
+gem 'omniauth', '~> 2.1'
 gem 'omniauth-github', '~> 2.0'
 gem 'puma', '~> 5.6'
 gem 'rack', '~> 2.2'
