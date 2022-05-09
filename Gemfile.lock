@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/jgarber623/sinatra-param.git
-  revision: 97dc3c6936732f4a0ff07d20a49be1a1948b9b20
-  tag: v3.4.0
+  revision: 414315f4bbcdac03aff1f6ec350945e68f269046
+  tag: v4.0.0
   specs:
-    sinatra-param (3.4.0)
+    sinatra-param (4.0.0)
       activesupport (~> 6.1)
       sinatra (~> 2.0)
 
@@ -35,7 +35,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     crack (0.4.5)
       rexml
     diff-lcs (1.5.0)
