@@ -34,7 +34,7 @@ RSpec.describe AuthenticateComputer, 'when performing an Authentication Request'
   end
 
   before do
-    OmniAuth.config.add_mock(:github, info: { nickname: ENV['GITHUB_USER'] })
+    OmniAuth.config.add_mock(:github, info: { nickname: ENV.fetch('GITHUB_USER', nil) })
 
     allow(SecureRandom).to receive(:hex).and_return(code)
 

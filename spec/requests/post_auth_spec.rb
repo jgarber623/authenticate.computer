@@ -96,7 +96,7 @@ RSpec.describe AuthenticateComputer, 'POST /auth', omniauth: true, redis: true d
     end
 
     before do
-      OmniAuth.config.add_mock(:github, info: { nickname: ENV['GITHUB_USER'] })
+      OmniAuth.config.add_mock(:github, info: { nickname: ENV.fetch('GITHUB_USER', nil) })
 
       allow(SecureRandom).to receive(:hex).and_return(code)
 
