@@ -8,6 +8,7 @@ ARG REDIS_VERSION="6.0.12"
 RUN apk add --update --no-cache \
       g++ \
       git \
+      less \
       make \
       nodejs \
       postgresql-client \
