@@ -74,7 +74,6 @@ GEM
       nokogiri (~> 1.10)
     json (2.6.2)
     jwt (2.5.0)
-    kwalify (0.7.2)
     link-header-parser (2.2.0)
       absolutely (~> 5.1)
     mini_portile2 (2.8.0)
@@ -122,10 +121,6 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.7.1)
-    reek (6.1.1)
-      kwalify (~> 0.7.0)
-      parser (~> 3.1.0)
-      rainbow (>= 2.0, < 4.0)
     regexp_parser (2.5.0)
     rexml (3.2.5)
     rspec (3.11.0)
@@ -251,7 +246,6 @@ DEPENDENCIES
   rack-test
   rake
   redis (~> 4.7)
-  reek
   rspec
   rspec_junit_formatter
   rubocop

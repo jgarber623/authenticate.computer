@@ -27,7 +27,6 @@ group :development, :test do
   gem 'dotenv', require: 'dotenv/load'
   gem 'rack-test', require: false
   gem 'rake'
-  gem 'reek', require: false
   gem 'rspec'
   gem 'rspec_junit_formatter'
   gem 'rubocop', require: false
