@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.4'
 
-gem 'bootsnap', '~> 1.8', require: false
+gem 'bootsnap', '~> 1.9', require: false
 gem 'brakeman'
 gem 'http', '~> 5.0'
 gem 'indieweb-endpoints', '~> 6.1'
@@ -43,6 +43,8 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'simplecov-console', require: false
   gem 'webmock'
