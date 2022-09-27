@@ -13,6 +13,7 @@ gem 'omniauth-github', '~> 2.0'
 gem 'puma', '~> 5.6'
 gem 'rack', '~> 2.2'
 gem 'rack-protection', '~> 2.2'
+gem 'rake'
 gem 'redis', '~> 4.7'
 gem 'sass', '~> 3.7'
 gem 'sass-globbing', '~> 1.1'
@@ -23,17 +24,7 @@ gem 'sinatra-param', github: 'jgarber623/sinatra-param', tag: 'v4.0.0'
 gem 'sinatra-partial', '~> 1.0'
 
 group :development, :test do
-  gem 'bundler-audit'
   gem 'dotenv', require: 'dotenv/load'
-  gem 'rack-test', require: false
-  gem 'rake'
-  gem 'rspec'
-  gem 'rspec-github', require: false
-  gem 'rubocop', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rake', require: false
-  gem 'rubocop-rspec', require: false
-  gem 'webmock', require: false
 end
 
 group :development do
@@ -41,7 +32,16 @@ group :development do
 end
 
 group :test do
+  gem 'bundler-audit', require: false
   gem 'code-scanning-rubocop', require: false
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'rspec-github', require: false
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rake', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'webmock', require: false
   gem 'simplecov', require: false
   gem 'simplecov-console', require: false
 end
