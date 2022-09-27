@@ -31,6 +31,8 @@ GEM
     bundler-audit (0.9.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
+    code-scanning-rubocop (0.6.1)
+      rubocop (~> 1.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -235,6 +237,7 @@ DEPENDENCIES
   barnes (~> 0.0.9)
   breakpoint (~> 2.7)
   bundler-audit
+  code-scanning-rubocop
   dotenv
   http (~> 4.4)
   indieweb-endpoints (~> 5.0)

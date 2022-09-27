@@ -41,6 +41,7 @@ group :development do
 end
 
 group :test do
+  gem 'code-scanning-rubocop', require: false
   gem 'simplecov', require: false
   gem 'simplecov-console', require: false
 end
