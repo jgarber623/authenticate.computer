@@ -28,7 +28,7 @@ group :development, :test do
   gem 'rack-test', require: false
   gem 'rake'
   gem 'rspec'
-  gem 'rspec_junit_formatter'
+  gem 'rspec-github', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rake', require: false
