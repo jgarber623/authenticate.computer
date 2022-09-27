@@ -9,6 +9,12 @@ AllCops:
 Layout/LineLength:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
+RSpec/ImplicitExpect:
+  EnforcedStyle: should
+
 Style/AsciiComments:
   Enabled: false
 
