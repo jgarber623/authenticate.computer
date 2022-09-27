@@ -1,0 +1,37 @@
+<%- if @authorization_request.errors.any? -%>
+  <div role="alert">
+    <p>The following errors were found in the provided parameters:</p>
+
+    <ul>
+      <%- @authorization_request.errors.each do |error| -%>
+        <li><code><%= error.attribute %></code> <%= error.message %></li>
+      <%- end -%>
+    </ul>
+  </div>
+<%- else -%>
+  <%- if @authorization_request.me.present? -%>
+  <!-- if 'me' is present and valid, render log in options -->
+  <!-- Sign in to 'client application details'  -->
+  <!-- Display supported providers based on rel="me" links -->
+    <div class="h-x-app">
+      <%= @client_metadata.name %><br>
+      <%= @client_metadata.url %><br>
+      <%= @client_metadata.logo %><br>
+      <%= @client_metadata.summary %>
+    </div>
+  <%- else -%>
+    <!-- if 'me' is not present, render the 'your website URL' form -->
+    <!-- link to some helpful documentaiton -->
+    <%= form_with method: :get do |form| %>
+      <%- [:response_type, :client_id, :redirect_uri, :state, :code_challenge, :code_challenge_method].each do |param| -%>
+        <%= form.hidden_field param, value: params[param] %>
+      <%- end -%>
+
+      <%= form.label :me, 'Your website’s URL' %>
+      <%= form.url_field :me, placeholder: 'https://…' %>
+      <button>Submit</button>
+    <% end %>
+  <%- end -%>
+
+  <p>You will be redirected to <b><%= @authorization_request.redirect_uri %></b> after authorizing this application’s request.</p>
+<%- end -%>
