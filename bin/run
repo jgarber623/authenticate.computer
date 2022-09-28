@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-if [ "$RACK_ENV" == "production" ]; then
-  bundle exec puma --config config/puma.rb
-else
-  bundle exec shotgun --host 0.0.0.0
-fi
