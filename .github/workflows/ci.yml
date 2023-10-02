@@ -5,10 +5,6 @@ on:
     branches-ignore: [production]
   pull_request:
     branches-ignore: [production]
-  workflow_call:
-    secrets:
-      CC_TEST_REPORTER_ID:
-        required: true
   workflow_dispatch:
 
 jobs:
@@ -75,6 +71,3 @@ jobs:
           COOKIE_NAME: _authenticate_computer
           COOKIE_SECRET: 29c22ff1e8978a2e0a0b7f9a5a2c025034f042a7cc83c055
           REDIS_URL: redis://localhost:6379
-      - uses: paambaati/codeclimate-action@v3.2.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
